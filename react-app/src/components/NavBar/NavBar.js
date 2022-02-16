@@ -1,4 +1,4 @@
-import LogoutButton from "./auth/LogoutButton"
+import LogoutButton from "../auth/LogoutButton"
 
 const NavBar = () => {
     return (
