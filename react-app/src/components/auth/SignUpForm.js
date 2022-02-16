@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { Redirect } from 'react-router-dom';
 import { signUp } from '../../store/session';
-
+import './SignUpForm.css'
 const SignUpForm = () => {
   const [errors, setErrors] = useState([]);
   const [username, setUsername] = useState('');
@@ -22,7 +22,9 @@ const SignUpForm = () => {
       }
     }
   };
-
+  const updateName = (e) => {
+    setName(e.target.value)
+  }
   const updateUsername = (e) => {
     setUsername(e.target.value);
   };
@@ -45,59 +47,128 @@ const SignUpForm = () => {
 
   return (
     <form onSubmit={onSignUp}>
-      <div>
-        {errors.map((error, ind) => (
-          <div key={ind}>{error}</div>
-        ))}
+    <div className='test'>
+    <div className='main-container-signup'>
+      <div className='left-half-container-signup'>
+          <div className='left-half-text-div'>
+            <div className='signup-logo'>
+              <span className='signup-logo-span'>Red Riding Hood</span>
+            </div>
+            <div className='money-moves-container'>
+              <div>
+                <span className='money-moves-span'>Make your Money Move</span>
+              </div>
+              <div className='commission-free-container-space'>
+                <div className='commission-free-container'>
+                  <span className='commission-free'>Red Riding Hood lets you invest in companies you love, commission-free.</span>
+                </div>
+              </div>
+            </div>
+            <div className='form-fields-container'>
+              <div className='errors-signup'>
+                {errors.map((error, ind) => (
+                  <div key={ind}>{error}</div>
+                ))}
+              </div>
+              <div className='legal-name-warning-container'>
+                  <span className='legal-name-warning'>Please enter your full legal name. Your legal name should match any form of government ID.</span>
+              </div>
+              <div className='signup-form-label-container'>
+                <label className='signup-label'>
+                  <div>
+                    <input className='signup-input'
+                      type='text'
+                      name='username'
+                      placeholder='Full Legal Name'
+                      onChange={updateName}
+                      value={name}
+                    ></input>
+                  </div>
+                </label>
+              </div>
+              <div className='signup-form-label-container'>
+                <label className='signup-label'>
+                  <input className='signup-input'
+                    type='text'
+                    name='username'
+                    placeholder='Username'
+                    onChange={updateUsername}
+                    value={username}
+                  ></input>
+                </label>
+              </div>
+              <div className='signup-form-label-container'>
+                <label className='signup-label'>
+                  <input className='signup-input'
+                    type='text'
+                    name='email'
+                    placeholder='Email address'
+                    onChange={updateEmail}
+                    value={email}
+                  ></input>
+                </label>
+              </div>
+              <div className='signup-form-label-container'>
+                <label className='signup-label'>
+                  <input className='signup-input'
+                    type='password'
+                    name='password'
+                    placeholder='Password (min 8 characters)'
+                    onChange={updatePassword}
+                    value={password}
+                  ></input>
+                </label>
+              </div>
+              <div className='signup-form-label-container'>
+                <label className='signup-label'>
+                  <input className='signup-input'
+                    type='password'
+                    name='repeat_password'
+                    placeholder='Confirm your password'
+                    onChange={updateRepeatPassword}
+                    value={repeatPassword}
+                    required={true}
+                  ></input>
+                </label>
+              </div>
+              <div className='signup-button-container'>
+                <button className='signup-button' type='submit'>
+                  <span className='signup-button-span'> Continue</span>
+                </button>
+              </div>
+          </div>
+          </div>
+        </div>
+      <div className='signup-right-side-container'>
+        <div className='signup-right-text-container'>
+            <div className='right-trading'>
+                <span className='right-title-span'>Commission-free trading</span>
+            </div>
+            <div>
+              <span className='right-text-span'>Break free from commission-fees and make unlimited commission-free trades in stocks, funds, and options with Robinhood Financial. Other fees may apply.</span>
+            </div>
+            <div className='account-protection-container'>
+                <span className='right-title-span'>Account Protection</span>
+            </div>
+            <div>
+              <span className='right-text-span'>No wolfs around here! Red Riding Hood Financial is a member of SIPC. Securities in your account protected up to $500,000. For details, please see </span>
+              <a className='sipc' href='www.sipc.org'>www.sipc.org</a>
+              <span>.</span>
+            </div>
+            <div className='account-protection-container'>
+                <span className='right-title-span'>Stay on top of your portfolio</span>
+            </div>
+            <div>
+              <span className='right-text-span'>Set up customized news and notifications to stay on top of your assets as casually or as relentlessly as you like. Controlling the flow of info is up to you.</span>
+            </div>
+        </div>
+
       </div>
-      <div>
-        <label>Full Name</label>
-        <input
-          type='text'
-          name='username'
-          onChange={updateUsername}
-          value={username}
-        ></input>
-      </div>
-      <div>
-        <label>User Name</label>
-        <input
-          type='text'
-          name='username'
-          onChange={updateUsername}
-          value={username}
-        ></input>
-      </div>
-      <div>
-        <label>Email</label>
-        <input
-          type='text'
-          name='email'
-          onChange={updateEmail}
-          value={email}
-        ></input>
-      </div>
-      <div>
-        <label>Password</label>
-        <input
-          type='password'
-          name='password'
-          onChange={updatePassword}
-          value={password}
-        ></input>
-      </div>
-      <div>
-        <label>Repeat Password</label>
-        <input
-          type='password'
-          name='repeat_password'
-          onChange={updateRepeatPassword}
-          value={repeatPassword}
-          required={true}
-        ></input>
-      </div>
-      <button type='submit'>Sign Up</button>
-    </form>
+    </div>
+    </div>
+  </form>
+
+
   );
 };
 
