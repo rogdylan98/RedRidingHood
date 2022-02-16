@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import { login } from '../../store/session';
 import './LoginForm.css'
 const LoginForm = () => {
@@ -12,6 +12,16 @@ const LoginForm = () => {
 
   const onLogin = async (e) => {
     e.preventDefault();
+    const data = await dispatch(login(email, password));
+    if (data) {
+      setErrors(data);
+    }
+  };
+
+  const handleDemo = async (e) => {
+    e.preventDefault();
+    const email = "demo@aa.io"
+    const password = "password"
     const data = await dispatch(login(email, password));
     if (data) {
       setErrors(data);
@@ -56,7 +66,6 @@ const LoginForm = () => {
                   <input className='login-email-input'
                     name='email'
                     type='text'
-                    // placeholder='Email'
                     value={email}
                     onChange={updateEmail}
                   />
@@ -64,17 +73,43 @@ const LoginForm = () => {
                 </label>
               </div>
             </div>
-            <div className='login-password'>
-              <label htmlFor='password'>Password</label>
-              <input
-                name='password'
-                type='password'
-                placeholder='Password'
-                value={password}
-                onChange={updatePassword}
-              />
-          </div>
-            <button type='submit'>Login</button>
+            <div className='login-email-container'>
+              <div className='email-label-input-container'>
+                <label className='login-email-label' htmlFor='email'>
+                <div>
+                  <span className='login-email-span'>Password</span>
+                </div>
+                <div className='login-email-input-container'>
+                  <input className='login-email-input'
+                    name='password'
+                    type='password'
+                    value={password}
+                    onChange={updatePassword}
+                  />
+                </div>
+                </label>
+              </div>
+            </div>
+            <footer className='login-footer'>
+              <div className='footer-buttons'>
+                <div>
+                  <button className='login-submit' type='submit'>
+                    <span className='login-form-span'>Log In</span>
+                  </button>
+                </div>
+                <div>
+                  <button onClick={handleDemo} className='demo-login-button' type='submit'>
+                      <span className='login-form-span'>Demo Log In</span>
+                  </button>
+                </div>
+              </div>
+              <div className='login-signup-navlink-container'>
+                  <span className='no-account'>No goodies for Grandma?</span>
+                  <NavLink className='login-signup-navlink' to='/signup'>
+                    <span className='login-signup-span'>Create an account</span>
+                  </NavLink>
+              </div>
+            </footer>
           </div>
         </form>
       </div>

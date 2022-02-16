@@ -98,8 +98,100 @@
     width: 100%;
 }
 
-/* .login-email-input {
+.login-submit {
+    appearance: none;
+    background-color: black;
+    border: 0px;
+    font: inherit;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    text-align: unset;
+    align-items: center;
     box-sizing: border-box;
-    display: block;
-    flex: 1 1 auto;
-} */
+    display: inline-flex;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 4px;
+    height: 48px;
+    max-width: 420px;
+    min-width: 120px;
+    padding-left: 48px;
+    padding-right: 48px;
+    white-space: nowrap;
+}
+
+.login-form-span {
+    margin: 0px;
+    color: rgb(255, 255, 255);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 700px;
+    letter-spacing: -.1px;
+    line-height: 20px;
+    text-decoration: unset;
+}
+
+.demo-login-button {
+    appearance: none;
+    background-color: #E15554;
+    border: 0px;
+    font: inherit;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    text-align: unset;
+    align-items: center;
+    box-sizing: border-box;
+    display: inline-flex;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 4px;
+    height: 48px;
+    max-width: 420px;
+    min-width: 120px;
+    padding-left: 48px;
+    padding-right: 48px;
+    white-space: nowrap;
+}
+
+.login-footer {
+    column-gap: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.login-signup-navlink-container {
+    margin-top: 25px;
+}
+
+.no-account {
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    letter-spacing: -.1px;
+    line-height: 20px;
+    text-decoration: unset;
+}
+
+.login-signup-navlink{
+    cursor: pointer;
+    padding-left: 10px;
+    color: black;
+}
+
+.login-signup-span {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: -.1px;
+    line-height: 20px;
+}

@@ -9,7 +9,7 @@ import UsersList from './components/UsersList';
 import User from './components/User';
 import { authenticate } from './store/session';
 import SplashPage from './components/SplashPage';
-
+import SplashPageNavBar from './components/SplashPageNavBar'
 function App() {
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
@@ -30,7 +30,7 @@ function App() {
       {/* <NavBar /> */}
       <Switch>
         <Route path='/us/en' exact={true}>
-          <NavBar />
+          <SplashPageNavBar />
           <SplashPage />
         </Route>
         <Route path='/login' exact={true}>
