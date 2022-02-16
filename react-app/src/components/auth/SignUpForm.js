@@ -47,6 +47,7 @@ const SignUpForm = () => {
 
   return (
     <form onSubmit={onSignUp}>
+    <div className='test'>
     <div className='main-container-signup'>
       <div className='left-half-container-signup'>
           <div className='left-half-text-div'>
@@ -138,9 +139,32 @@ const SignUpForm = () => {
           </div>
           </div>
         </div>
-      <div>
+      <div className='signup-right-side-container'>
+        <div className='signup-right-text-container'>
+            <div className='right-trading'>
+                <span className='right-title-span'>Commission-free trading</span>
+            </div>
+            <div>
+              <span className='right-text-span'>Break free from commission-fees and make unlimited commission-free trades in stocks, funds, and options with Robinhood Financial. Other fees may apply.</span>
+            </div>
+            <div className='account-protection-container'>
+                <span className='right-title-span'>Account Protection</span>
+            </div>
+            <div>
+              <span className='right-text-span'>No wolfs around here! Red Riding Hood Financial is a member of SIPC. Securities in your account protected up to $500,000. For details, please see </span>
+              <a className='sipc' href='www.sipc.org'>www.sipc.org</a>
+              <span>.</span>
+            </div>
+            <div className='account-protection-container'>
+                <span className='right-title-span'>Stay on top of your portfolio</span>
+            </div>
+            <div>
+              <span className='right-text-span'>Set up customized news and notifications to stay on top of your assets as casually or as relentlessly as you like. Controlling the flow of info is up to you.</span>
+            </div>
+        </div>
 
       </div>
+    </div>
     </div>
   </form>
 
