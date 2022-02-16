@@ -22,7 +22,9 @@ const SignUpForm = () => {
       }
     }
   };
-
+  const updateName = (e) => {
+    setName(e.target.value)
+  }
   const updateUsername = (e) => {
     setUsername(e.target.value);
   };
@@ -55,8 +57,8 @@ const SignUpForm = () => {
         <input
           type='text'
           name='username'
-          onChange={updateUsername}
-          value={username}
+          onChange={updateName}
+          value={name}
         ></input>
       </div>
       <div>
