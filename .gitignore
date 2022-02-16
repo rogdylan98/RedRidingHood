@@ -4,3 +4,5 @@ __pycache__/
 .venv
 .DS_Store
 .vscode/
+react-app/node_modules
+node_modules

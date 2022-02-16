@@ -62,10 +62,15 @@ def sign_up():
     form = SignUpForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
+        if len(form.data['username']) < 6:
+            return {'errors': ['Bad data', '* Username is too short. ']}, 400
+        if form.data['username'].find(' ') != -1:
+            return {'errors': ['Bad data:', '*Username must not have spaces.']}, 400
         user = User(
             username=form.data['username'],
+            name=form.data['name'],
             email=form.data['email'],
-            password=form.data['password']
+            password=form.data['password'],
         )
         db.session.add(user)
         db.session.commit()
