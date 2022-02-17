@@ -9,3 +9,12 @@ class Stock(db.Model):
     ticker = db.Column(db.String(5), nullable=False, unique=True)
     price = db.Column(db.Float(2), nullable=False)
     description = db.Column(db.String(2200), nullable=False)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'ticker': self.ticker,
+            'price': self.price,
+            'description': self.description
+        }

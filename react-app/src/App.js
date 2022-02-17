@@ -9,7 +9,8 @@ import UsersList from './components/UsersList';
 import User from './components/User';
 import { authenticate } from './store/session';
 import SplashPage from './components/SplashPage/SplashPage';
-import SplashPageNavBar from './components/NavBar/SplashPageNavBar'
+import SplashPageNavBar from './components/NavBar/SplashPageNavBar';
+import StockInfo from './components/StockInfo/StockInfo';
 function App() {
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
@@ -48,9 +49,9 @@ function App() {
           <NavBar />
           <User />
         </ProtectedRoute>
-        <ProtectedRoute path='/' exact={true} >
+        <ProtectedRoute path='/stocks/:ticker' exact={true} >
           <NavBar />
-          <h1>My Home Page</h1>
+          <StockInfo />
         </ProtectedRoute>
       </Switch>
     </BrowserRouter>
