@@ -1,6 +1,7 @@
 from .db import db
 from sqlalchemy.sql import func
 from sqlalchemy import DateTime, Float
+from app.models.stock import Stock
 
 class Transaction(db.Model):
     __tablename__ = 'transactions'
@@ -13,13 +14,18 @@ class Transaction(db.Model):
     updated_at = db.Column(DateTime(timezone=True),
                            onupdate=func.now(), server_default=func.now())
 
-    def to_dict(self):
+    def get_stock_by_id(self, id):
+        stock = Stock.query.get(id)
+        return stock.to_dict()
 
+    def to_dict(self):
+        stock = self.get_stock_by_id(self.stockid)
         return {
             'id': self.id,
             'userid': self.userid,
-            'stock_name': stock_name,
-            'stock_ticker': stock_ticker,
+            'stock_name': stock['name'],
+            'stock_ticker': stock['ticker'],
             'shares': self.shares,
-            'share_value': self.share_value
+            'share_value': self.share_value,
+            'upated_at': self.updated_at
         }

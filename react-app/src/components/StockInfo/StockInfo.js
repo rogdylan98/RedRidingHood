@@ -2,12 +2,16 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getStock } from "../../store/stocks";
+import { makeTransaction} from "../../store/transactions";
 
 const StockInfo = () => {
     const { ticker } = useParams();
     const stock = useSelector(state => state.stocks[ticker]);
-    const balance = useSelector(state => state.session.user.balance)
+    const userid = useSelector(state => state.session.user.id)
+    const user_balance = useSelector(state => state.session.user.balance);
+    const [balance, setBalance] = useState(user_balance)
     const [errors, setErrors] = useState([]);
+    const [method, setMethod] = useState('');
     const [shares, setShares] = useState(0);
     const [totalCost, setTotalCost] = useState(0);
 
@@ -18,13 +22,32 @@ const StockInfo = () => {
         }
     })
 
-    const onSubmit = () => {
-
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        console.log(method, "LOOK HERE")
+        const data = await dispatch(makeTransaction(userid, stock.id, shares, method, totalCost))
+        if (data && method) {
+            if (method === 'buy'){
+                setBalance(balance - totalCost)
+            } else {
+                setBalance(balance + totalCost)
+            }
+        }
     }
 
     const updateShares = (e) => {
         setShares(e.target.value)
         setTotalCost(e.target.value * stock.price)
+    }
+
+    const handleBuy = (e) => {
+        e.preventDefault()
+        setMethod('buy')
+    }
+
+    const handleSell = (e) => {
+        e.preventDefault()
+        setMethod('sell')
     }
     return (
         <>
@@ -47,13 +70,19 @@ const StockInfo = () => {
                 </div>
                 <div className="stock-form-container">
                     <form onSubmit={onSubmit} className="stock-form">
+                        <div>
+                            <div>
+                                <span>Your current Balance {balance}</span>
+                            </div>
+                        </div>
                         <div className="buy-sell-container">
                             <div className="buy-container">
-                                <span className="buy-span">Buy</span>
+                                <button onClick={handleBuy} className="buy-span">Buy</button>
                             </div>
                             <div className="sell-container">
-                                <span className="sell-span">Sell</span>
+                                <button onClick={handleSell} className="sell-span">Sell</button>
                             </div>
+                            {console.log(method, shares)}
                         </div>
                         <div className="buy-sell-info-container">
                             <div>

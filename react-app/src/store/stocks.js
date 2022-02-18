@@ -23,6 +23,6 @@ export default function reducer(state = initialState, action) {
             newState[action.payload.ticker] = action.payload;
             return newState;
         default:
-            return state
+            return state;
     }
 }
