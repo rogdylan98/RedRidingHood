@@ -1,7 +1,7 @@
 from .db import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-
+from app.models.transaction import Transaction
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
@@ -24,6 +24,20 @@ class User(db.Model, UserMixin):
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
+
+    def update_balance(self, method, share_value):
+        if method == 'buy':
+            self.balance -= share_value
+        elif method == 'sell':
+            self.balance += share_value
+        db.session.commit()
+
+    def get_current_shares(self, stockid):
+        current_owner = Transaction.query.filter_by(userid=self.id, stockid=stockid).all()
+        if len(current_owner):
+            shares = [e.shares for e in current_owner]
+            return shares[0]
+        return 0
 
     def to_dict(self):
         return {
