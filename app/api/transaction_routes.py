@@ -13,18 +13,25 @@ transaction_routes = Blueprint('transactions', __name__)
 def new_transaction():
     form = TransactionForm()
     form['csrf_token'].data = request.cookies['csrf_token']
-    print(form.data)
+    method = form.data['method']
+
     if form.validate_on_submit():
         user = User.query.get(form.data['userid'])
         current_shares = user.get_current_shares(form.data['stockid'])
-        if form.data['method'] == 'buy' and user.balance < form.data['share_value']:
+        if method == 'buy' and user.balance < form.data['share_value']:
             return {'errors': ['Bad data:', '* Not enough funds to purchase']}, 400
-        if form.data['method'] == 'sell' and form.data['shares'] > current_shares:
+        if method == 'sell' and form.data['shares'] > current_shares:
             return {'errors': ['Bad data:', '* Not enough shares to sell']}, 400
-        user.update_balance(form.data['method'], form.data['share_value'])
+        user.update_balance(method, form.data['share_value'])
+        prev_transaction = Transaction.query.filter_by(userid=user.id, stockid=form.data['stockid']).first()
+
+        if current_shares == form.data['shares'] and method == 'sell':
+            db.session.delete(prev_transaction)
+            db.session.commit()
+            return "success", 200
+
         if current_shares:
-            prev_transaction = Transaction.query.filter_by(userid=user.id, stockid=form.data['stockid']).first()
-            if form.data['method'] == 'buy':
+            if method == 'buy':
                 prev_transaction.shares += form.data['shares']
                 prev_transaction.share_value += form.data['share_value']
             else:
