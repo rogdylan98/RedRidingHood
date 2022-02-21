@@ -38,16 +38,17 @@ export const makeTransaction = (userid, stockid, shares, method, share_value) =>
 
 }
 
-const initialState = {transactions: []};
+const initialState = {};
 
 export default function reducer(state = initialState, action) {
 
+    const newState = {...state}
     switch (action.type) {
         case NEW_TRANSACTION:
-            state.transactions.push(action.transaction)
-            return state
+            newState[action.transaction.stock_ticker] = action.transaction;
+            return newState
         default:
-            return state;
+            return newState;
 
     }
 }

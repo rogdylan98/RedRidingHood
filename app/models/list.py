@@ -18,6 +18,6 @@ class List(db.Model):
             'id': self.id,
             'userid': self.userid,
             'name': self.name,
-            'stocks': stocksList,
+            # 'stocks': stocksList,
             'updated_at': self.updated_at,
         }
