@@ -3,17 +3,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getStock } from "../../store/stocks";
 import { makeTransaction} from "../../store/transactions";
+import { getBalance } from "../../store/user";
 
 const StockInfo = () => {
     const { ticker } = useParams();
     const stock = useSelector(state => state.stocks[ticker]);
     const userid = useSelector(state => state.session.user.id)
-    const user_balance = useSelector(state => state.session.user.balance);
-    const [balance, setBalance] = useState(user_balance)
+    const userBalance = useSelector(state => state.session.user.balance);
+    const [updateBalance, setUpdateBalance] = useState(false)
+    const [balance, setBalance] = useState(userBalance)
     const [errors, setErrors] = useState([]);
     const [method, setMethod] = useState('');
     const [shares, setShares] = useState(0);
     const [totalCost, setTotalCost] = useState(0);
+    const receiptObj = useSelector(state => state.transactions)
+    const receipts = Object.values(receiptObj);
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -22,17 +26,23 @@ const StockInfo = () => {
         }
     })
 
+    useEffect(() => {
+        if (updateBalance) {
+            dispatch(getBalance(userid)).then(res => {
+                if (res) {
+                    console.log(res, "RES")
+                    setBalance(res)
+                }
+
+            })
+            setUpdateBalance(false)
+        }
+    })
+
     const onSubmit = async (e) => {
         e.preventDefault();
-        console.log(method, "LOOK HERE")
-        const data = await dispatch(makeTransaction(userid, stock.id, shares, method, totalCost))
-        if (data && method) {
-            if (method === 'buy'){
-                setBalance(balance - totalCost)
-            } else {
-                setBalance(balance + totalCost)
-            }
-        }
+        await dispatch(makeTransaction(userid, stock.id, shares, method, totalCost))
+        setUpdateBalance(true)
     }
 
     const updateShares = (e) => {
@@ -49,13 +59,26 @@ const StockInfo = () => {
         e.preventDefault()
         setMethod('sell')
     }
+
+    const addToList = async (e) => {
+        e.preventDefault()
+        // await dispatch(addStocktoList(userid, stock.id))
+    }
     return (
         <>
+            {receipts && receipts.map(r => (
+                <div key={r.id}>
+                    <div>Your Shares of {stock.name}: {r.shares}</div>
+                    <div>Current Market Value: {r.share_value}</div>
+                </div>
+            ))}
+
             {stock &&
             <div className="stock-page-container">
                 <div className="stock-info-container">
                     <div className="stock-name-tkr-container">
                         <span className="stock-name-tkr">{stock.name} ({stock.ticker})</span>
+                        <button onClick={addToList}>Add to List</button>
                     </div>
                     <div className="stock-price-container">
                         <span className="stock-price">${stock.price}</span>
@@ -72,6 +95,7 @@ const StockInfo = () => {
                     <form onSubmit={onSubmit} className="stock-form">
                         <div>
                             <div>
+                                {console.log(balance, "###########")}
                                 <span>Your current Balance {balance}</span>
                             </div>
                         </div>
@@ -108,6 +132,7 @@ const StockInfo = () => {
                     </form>
                 </div>
             </div> }
+
         </>
     )
 }
