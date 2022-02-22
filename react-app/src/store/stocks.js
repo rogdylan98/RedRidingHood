@@ -15,6 +15,18 @@ export const getStock = (ticker) => async(dispatch) => {
     }
 }
 
+
+export const searchStocks = (substring) => async() => {
+    const response = await fetch(`/api/stocks/search/${substring}`);
+    if (response.ok){
+        const stocklist = await response.json();
+        return stocklist
+    } else {
+        return {}
+    }
+}
+
+
 export default function reducer(state = initialState, action) {
     const newState = {...state};
 
