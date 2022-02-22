@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
 from app.models import db, User, Stock, List
 from app.forms import ListForm
+from app.forms.edit_list_form import EditListForm
 from app.api.auth_routes import validation_errors_to_error_messages
 
 list_routes = Blueprint('lists', __name__)
@@ -32,3 +33,25 @@ def new_list():
 def get_user_lists(userid):
     user_lists = List.query.filter_by(userid=userid).all()
     return {l.id: l.to_dict() for l in user_lists}
+
+@list_routes.route('/<int:listid>', methods=["DELETE"])
+@login_required
+def delete_list(listid):
+    deleted_list = List.query.get(listid)
+    db.session.delete(deleted_list)
+    db.session.commit()
+    return "success", 200
+
+
+@list_routes.route('/<int:listid>', methods=["PUT"])
+@login_required
+def edit_list(listid):
+    form = EditListForm()
+    new_list = List.query.get(listid)
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        new_list.name = form.data['listname']
+        db.session.commit()
+        return new_list.to_dict()
+    else:
+        return {'errors': validation_errors_to_error_messages}, 401
