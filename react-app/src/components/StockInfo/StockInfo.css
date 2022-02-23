@@ -1,0 +1,71 @@
+.stock-name {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 500;
+    letter-spacing: -.33px;
+}
+
+.stock-graph-container {
+    margin-bottom: 44px;
+    position: relative;
+    width: 676px;
+    height: 349px;
+}
+
+.stock-page-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.stock-info-container {
+    padding-left: 30px;
+}
+
+.buy-sell-div {
+    padding-left: 24px;
+    padding-right: 24px;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-color: rgb(227,233,237);
+    height: 52px;
+    padding-top: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+
+.buy-sell-span {
+    margin: 0px;
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: -.1px;
+    line-height: 24px;
+    cursor: pointer;
+}
+
+
+.buy-sell-span-noclick {
+    margin: 0px;
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: -.1px;
+    line-height: 24px;
+}
+
+.shadow {
+    background-color: #E15554;
+    font-weight: bolder;
+}
+
+.noshadow {
+    background-color: transparent;
+}

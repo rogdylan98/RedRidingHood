@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import { getStock } from "../../store/stocks";
 import { makeTransaction} from "../../store/transactions";
 import { getBalance } from "../../store/user";
+import './StockInfo.css';
+import PortfolioChart from "../PortfolioPage/PortfolioChart";
 
 const StockInfo = () => {
     const { ticker } = useParams();
@@ -13,6 +15,8 @@ const StockInfo = () => {
     const [updateBalance, setUpdateBalance] = useState(false)
     const [balance, setBalance] = useState(userBalance)
     const [errors, setErrors] = useState([]);
+    const [buybuttonBg, setbuyButtonbg] = useState(false);
+    const [sellbuttonBg, setsellButtonbg] = useState(false);
     const [method, setMethod] = useState('');
     const [shares, setShares] = useState(0);
     const [totalCost, setTotalCost] = useState(0);
@@ -30,7 +34,6 @@ const StockInfo = () => {
         if (updateBalance) {
             dispatch(getBalance(userid)).then(res => {
                 if (res) {
-                    console.log(res, "RES")
                     setBalance(res)
                 }
 
@@ -53,11 +56,13 @@ const StockInfo = () => {
     const handleBuy = (e) => {
         e.preventDefault()
         setMethod('buy')
+        setbuyButtonbg(prev => !prev)
     }
 
     const handleSell = (e) => {
         e.preventDefault()
         setMethod('sell')
+        setsellButtonbg(prev => !prev)
     }
 
     const addToList = async (e) => {
@@ -77,14 +82,11 @@ const StockInfo = () => {
             <div className="stock-page-container">
                 <div className="stock-info-container">
                     <div className="stock-name-tkr-container">
-                        <span className="stock-name-tkr">{stock.name} ({stock.ticker})</span>
-                        <button onClick={addToList}>Add to List</button>
-                    </div>
-                    <div className="stock-price-container">
-                        <span className="stock-price">${stock.price}</span>
+                        <h1 className="stock-name">{stock.name}</h1>
+                        <h1 className="stock-name">${stock.price}</h1>
                     </div>
                     <div className="stock-graph-container">
-                        <span>Graph coming soon</span>
+                        <PortfolioChart />
                     </div>
                     <div className="stock-about-container">
                         <h2>About</h2>
@@ -93,21 +95,24 @@ const StockInfo = () => {
                 </div>
                 <div className="stock-form-container">
                     <form onSubmit={onSubmit} className="stock-form">
-                        <div>
-                            <div>
-                                {console.log(balance, "###########")}
-                                <span>Your current Balance {balance}</span>
+                        <div className="buy-sell-div">
+                            <div className={buybuttonBg ? 'shadow' : 'noshadow'} onClick={handleBuy}>
+                                <span  className="buy-sell-span">Buy {stock.ticker}</span>
+                            </div>
+                                <span className="buy-sell-span-noclick"> | </span>
+                            <div className={sellbuttonBg ? 'shadow' : 'noshadow'} onClick={handleSell}>
+                                <span className="buy-sell-span">Sell {stock.ticker}</span>
                             </div>
                         </div>
-                        <div className="buy-sell-container">
+                        {/* <div className="buy-sell-container">
                             <div className="buy-container">
-                                <button onClick={handleBuy} className="buy-span">Buy</button>
+                                <button className="buy-span">Buy</button>
                             </div>
                             <div className="sell-container">
-                                <button onClick={handleSell} className="sell-span">Sell</button>
+                                <button  className="sell-span">Sell</button>
                             </div>
                             {console.log(method, shares)}
-                        </div>
+                        </div> */}
                         <div className="buy-sell-info-container">
                             <div>
                                 <label> Shares
@@ -130,6 +135,8 @@ const StockInfo = () => {
                             </div>
                         </div>
                     </form>
+                    <button onClick={addToList}>Add to List</button>
+
                 </div>
             </div> }
 

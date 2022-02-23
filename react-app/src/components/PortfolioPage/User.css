@@ -1,19 +1,24 @@
 .portfolio-main-container {
     margin-top: 0;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     margin: 0 -6px;
 }
 
 .buying-power-outer-div {
     margin-bottom: 60px;
     padding-left: 20px;
+    padding-top: 50px;
+
 }
+/*
+.chart-div {
+    padding-left: 50px;
+} */
 
 .buying-power-inner-div {
     border-radius: 4px;
     box-sizing: border-box;
-
 }
 
 .buying-power-button {

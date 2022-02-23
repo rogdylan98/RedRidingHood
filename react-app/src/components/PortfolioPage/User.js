@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import './User.css'
 import { getUserLists, makeList, editList, deleteList } from '../../store/lists';
 import { NavLink } from 'react-router-dom';
-
+import PortfolioChart from './PortfolioChart';
 function User() {
 
   const user = useSelector(state => state.session.user);
@@ -51,9 +51,11 @@ function User() {
     <>
       <div className='portfolio-main-container'>
         <div className='buying-power-outer-div'>
-          <div className='chart-div'></div>
+          <div className='chart-div'>
+            <h1>$0.00</h1>
+            <PortfolioChart />
+          </div>
           <div className='buying-power-inner-div'>
-                <h1>Graph Coming Soon</h1>
             <button className='buying-power-button'>
               <header>
                 <div className='buying-power-span-div'>
@@ -135,26 +137,26 @@ function User() {
                   </div>
                   </>
               ))}
+              {showForm && edit &&
+              <div>
+                <form onSubmit={handleEdit}>
+                  <div>
+                    <label>Edit List Name:</label>
+                      <input type='text' name='listname' onChange={updateName} value={listname}></input>
+                      <button type='submit'>Edit List</button>
+                      <button onClick={() => {
+                        setShowForm(false)
+                        setEdit(false)
+                      }}>Cancel</button>
+                  </div>
+                </form>
+              </div>
+              }
               </div>
             </div>
           </div>
         </div>
       </div>
-      {showForm && edit &&
-      <div>
-        <form onSubmit={handleEdit}>
-          <div>
-            <label>Edit List Name:</label>
-              <input type='text' name='listname' onChange={updateName} value={listname}></input>
-              <button type='submit'>Edit List</button>
-              <button onClick={() => {
-                setShowForm(false)
-                setEdit(false)
-              }}>Cancel</button>
-          </div>
-        </form>
-      </div>
-      }
       </div>
     </>
   );
