@@ -8,7 +8,7 @@ from app.api.auth_routes import validation_errors_to_error_messages
 list_routes = Blueprint('lists', __name__)
 
 @list_routes.route('/new', methods=['POST'])
-# @login_required
+@login_required
 def new_list():
     form = ListForm()
     form['csrf_token'].data = request.cookies['csrf_token']
@@ -28,11 +28,18 @@ def new_list():
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 
-@list_routes.route('/<int:userid>')
-# @login_required
+@list_routes.route('/<int:userid>/all')
+@login_required
 def get_user_lists(userid):
     user_lists = List.query.filter_by(userid=userid).all()
     return {l.id: l.to_dict() for l in user_lists}
+
+
+@list_routes.route('/<int:listid>')
+@login_required
+def get_list_by_id(listid):
+    my_list = List.query.filter_by(id=listid).first()
+    return my_list.to_dict()
 
 @list_routes.route('/<int:listid>', methods=["DELETE"])
 @login_required

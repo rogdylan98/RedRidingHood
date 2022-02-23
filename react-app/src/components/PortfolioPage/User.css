@@ -3,6 +3,7 @@
     display: flex;
     justify-content: space-around;
     margin: 0 -6px;
+    padding-top: 50px;
 }
 
 .buying-power-outer-div {
@@ -93,7 +94,7 @@
 
 .list-grid-inner-div {
     width: auto;
-    height: 1044px;
+    height: 600px;
     /* max-width: 276px;
     max-height: 1044px; */
     overflow: hidden;
@@ -207,7 +208,7 @@
 }
 
 .cancel-button {
-    background: none;
+    background-color: #E15554;
     padding-top: 0px;
     padding-bottom: 0px;
     text-align: unset;
@@ -217,7 +218,7 @@
     justify-content: center;
     cursor: pointer;
     border-radius: 44px;
-    color: #E15554;
+    color: white;
     max-width: 420px;
     white-space: nowrap;
     height: 36px;
@@ -235,7 +236,7 @@
 
 .cancel-span {
     margin: 0px;
-    color: #E15554;
+    color: white;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 13px;
     font-style: normal;
