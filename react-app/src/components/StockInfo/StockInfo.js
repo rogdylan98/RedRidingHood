@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getStock, addStockList, deleteStockList } from "../../store/stocks";
+import { getStock, addStockList} from "../../store/stocks";
 import { makeTransaction} from "../../store/transactions";
 import { getBalance } from "../../store/user";
 import './StockInfo.css';
 import PortfolioChart from "../PortfolioPage/PortfolioChart";
+import { getUserLists } from "../../store/lists";
 
 const StockInfo = () => {
     const { ticker } = useParams();
     const stock = useSelector(state => state.stocks[ticker]);
     const userid = useSelector(state => state.session.user.id)
     const userBalance = useSelector(state => state.session.user.balance);
+    const userlists = useSelector(state => state.lists);
+    const listarr = Object.values(userlists);
     const [updateBalance, setUpdateBalance] = useState(false)
     const [balance, setBalance] = useState(userBalance)
     const [errors, setErrors] = useState([]);
@@ -22,13 +25,16 @@ const StockInfo = () => {
     const receiptObj = useSelector(state => state.transactions)
     const receipts = Object.values(receiptObj);
     const [addList, setAddList] = useState(false)
-    const [listid, setListid] = useState(17);
+    const [listid, setListid] = useState(0);
     const [removeList, setRemoveList] = useState(false);
+    const [listform, setlistform] = useState(false);
+    const [selectedList, setSelectedList] = useState('');
 
     const dispatch = useDispatch();
     useEffect(() => {
         if (!stock) {
             dispatch(getStock(ticker))
+            dispatch(getUserLists(userid))
         }
     })
 
@@ -47,9 +53,11 @@ const StockInfo = () => {
     useEffect(() => {
         if (addList) {
             dispatch(addStockList(stock, listid))
-        } else if (removeList) {
-            dispatch(deleteStockList(stock, listid))
+            setAddList(false)
         }
+        // else if (removeList) {
+        //     dispatch(deleteStockList(stock, listid))
+        // }
     })
 
     const onSubmit = async (e) => {
@@ -85,8 +93,16 @@ const StockInfo = () => {
         }
     }
 
+    const handleSelect = (e) => {
+        setSelectedList(e.target.value)
+        setListid(e.target.value)
+    }
 
-
+    const handleAddStock = (e) => {
+        e.preventDefault()
+        setAddList(true)
+        setlistform(false)
+    }
     return (
         <>
             {receipts && receipts.map(r => (
@@ -148,8 +164,22 @@ const StockInfo = () => {
                         </div>
                     </form>
                     <div className="list-button" >
-                        <button onClick={() => setAddList(true)}>Add to List (not functional yet)</button>
+                        <button onClick={() => setlistform(true)}>Add to List</button>
                     </div>
+                    {listform &&
+                        <div>
+                            <form onSubmit={handleAddStock}>
+                                <select name='lists' value={selectedList} onChange={handleSelect}>
+                                    {listform && listarr &&
+                                        listarr.map(list => (
+                                            <option key={list.id} value={list.id}>{list.name}</option>
+                                        ))
+                                    }
+                                </select>
+                                <button type='submit'>Submit</button>
+                            </form>
+                        </div>
+                    }
                 </div>
 
             </div> }

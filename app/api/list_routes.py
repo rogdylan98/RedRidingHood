@@ -67,25 +67,30 @@ def edit_list(listid):
 @login_required
 def get_stocks_in_list(listid):
     my_list = List.query.get(listid)
-    entry_list = list_stocks.query.filter_by(listid=listid).all()
-    return my_list.get_stocks(entry_list)
+    my_stocks = [stock.to_dict() for stock in my_list.stocks]
+    return {'stocks': my_stocks}
 
 @list_routes.route('/<int:listid>/<int:stockid>', methods=['POST'])
 @login_required
 def add_stock_to_list(listid, stockid):
-    if len(db.session.query(list_stocks).filter_by(listid=listid, stockid=stockid).all()):
-        return {'errors': 'This stock is already in this list'}
-    new_entry = list_stocks.insert().values(listid=listid, stockid=stockid)
-    db.session.add(new_entry)
+    my_list = List.query.get(listid)
+    my_stock = Stock.query.get(stockid)
+    for stock in my_list.stocks:
+        if stock.id == stockid:
+            return {"error": "stock already in list"}
+    my_list.stocks.append(my_stock)
+    db.session.add(my_list)
     db.session.commit()
     return "success", 200
 
 @list_routes.route('/<int:listid>/<int:stockid>', methods=['DELETE'])
 @login_required
 def delete_stock_from_list(listid, stockid):
-    if not len(list_stocks.query.filter_by(listid=listid, stockid=stockid).all()):
-        return {'errors': 'This stock was not in the list'}
-    entry = list_stocks.query.filter_by(listid=listid, stockid=stockid).first()
-    db.session.delete(entry)
+    # if not len(list_stocks.query.filter_by(listid=listid, stockid=stockid).all()):
+    #     return {'errors': 'This stock was not in the list'}
+    my_list = List.query.get(listid)
+    my_stock = Stock.query.get(stockid)
+    my_list.stocks.remove(my_stock)
+    db.session.add(my_list)
     db.session.commit()
     return "succes", 200

@@ -20,11 +20,11 @@ const addStocktoList = (data, listid) => ({
     listid
 })
 
-const removeStockList = (data, listid) => ({
-    type: REMOVE_STOCK_LIST,
-    payload: data,
-    listid
-})
+// const removeStockList = (data, listid) => ({
+//     type: REMOVE_STOCK_LIST,
+//     payload: data,
+//     listid
+// })
 
 const initialState = {};
 
@@ -40,7 +40,7 @@ export const getStocksinList = (listid) => async(dispatch) => {
     const response = await fetch(`/api/lists/${listid}/stocks`);
     if (response.ok) {
         const data = await response.json();
-        dispatch(getStocks(data))
+        dispatch(getStocks(data, listid))
     }
 }
 
@@ -64,14 +64,26 @@ export const addStockList = (stock, listid) => async(dispatch) => {
     }
 }
 
-export const deleteStockList = (stock, listid) => async(dispatch) => {
-    const response = await fetch(`/api/lists/${listid}`, {
+// export const deleteStockList = (stock, listid) => async(dispatch) => {
+//     const response = await fetch(`/api/lists/${listid}`, {
+//         method: "DELETE",
+//     });
+
+//     if (response.ok) {
+//         await dispatch(removeStockList(stock));
+//         return null;
+//     } else {
+//         return ['An error occured. Please try again']
+//     }
+// }
+
+export const deleteStockinList = (stockid, listid) => async() => {
+    const response = await fetch(`/api/lists/${listid}/${stockid}`, {
         method: "DELETE",
-    });
+    })
 
     if (response.ok) {
-        await dispatch(removeStockList(stock));
-        return null;
+        return
     } else {
         return ['An error occured. Please try again']
     }
@@ -99,9 +111,9 @@ export default function reducer(state = initialState, action) {
         case GET_STOCKS:
             newState[action.listid] = action.payload;
             return newState;
-        case REMOVE_STOCK_LIST:
-            delete newState[action.listid]
-            return newState;
+        // case REMOVE_STOCK_LIST:
+        //     delete newState[action.listid]
+        //     return newState;
         default:
             return state;
     }
