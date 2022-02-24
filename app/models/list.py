@@ -13,11 +13,11 @@ class List(db.Model):
     created_at = db.Column(DateTime(timezone=True), server_default=func.now())
     updated_at = db.Column(DateTime(timezone=True), onupdate=func.now(), server_default=func.now())
     user = db.relationship('User', back_populates='lists')
-    stocks = db.relationship('Stock', secondary=list_stocks, backref='list')
+    stocks = db.relationship('Stock', secondary='list_stocks', lazy='subquery', backref=db.backref('lists', lazy=True))
 
-    def get_stocks(self, array):
-        stock_dic = {Stock.query.get(entry.stockid).name: Stock.query.get(entry.stockid).to_dict() for entry in array}
-        return stock_dic
+    # def get_stocks(self, array):
+    #     stock_dic = {Stock.query.get(entry.stockid).name: Stock.query.get(entry.stockid).to_dict() for entry in array}
+    #     return stock_dic
 
     def to_dict(self):
         return {
