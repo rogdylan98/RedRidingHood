@@ -1,7 +1,7 @@
 const ADD_LIST = 'lists/ADD_LIST';
 const REMOVE_LIST = 'lists/REMOVE_LIST';
 const GET_LISTS = 'lists/GET_LISTS';
-// const EDIT_LIST = 'lists/EDIT_LIST';
+const GET_LIST = 'lists/GET_LIST';
 
 const addList = (list) => ({
   type: ADD_LIST,
@@ -11,6 +11,11 @@ const addList = (list) => ({
 const getLists = (lists) => ({
     type: GET_LISTS,
     payload: lists
+})
+
+const getList = (list) => ({
+  type: GET_LIST,
+  payload: list
 })
 
 const removeList = (id) => ({
@@ -56,6 +61,17 @@ export const deleteList = (listid) => async(dispatch) => {
       }
 }
 
+export const getListbyId = (listid) => async(dispatch) => {
+  const response = await fetch(`/api/lists/${listid}`)
+  if (response.ok) {
+    const list = await response.json()
+    await dispatch(getList(list));
+    return null;
+  } else {
+    return ['An error occured. Please try again']
+  }
+}
+
 export const makeList = (userid, listname) => async(dispatch) => {
     const response = await fetch (`/api/lists/new`, {
         method: "POST",
@@ -84,7 +100,7 @@ export const makeList = (userid, listname) => async(dispatch) => {
 }
 
 export const getUserLists = (userid) => async(dispatch) => {
-    const response = await fetch(`/api/lists/${userid}`)
+    const response = await fetch(`/api/lists/${userid}/all`)
 
     if (response.ok) {
         const data = await response.json();
@@ -105,6 +121,11 @@ export default function reducer(state = initialState, action) {
         case GET_LISTS:
             const newState = {...state, ...action.payload}
             return newState
+        case GET_LIST:
+            const list_state = {}
+            const list_id = action.payload.id;
+            list_state[list_id] = action.payload;
+            return list_state;
         case ADD_LIST:
             const listId = action.payload.id;
             state[listId] = action.payload;

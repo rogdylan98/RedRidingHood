@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getStock } from "../../store/stocks";
+import { getStock, addStockList, deleteStockList } from "../../store/stocks";
 import { makeTransaction} from "../../store/transactions";
 import { getBalance } from "../../store/user";
+import './StockInfo.css';
+import PortfolioChart from "../PortfolioPage/PortfolioChart";
 
 const StockInfo = () => {
     const { ticker } = useParams();
@@ -13,11 +15,15 @@ const StockInfo = () => {
     const [updateBalance, setUpdateBalance] = useState(false)
     const [balance, setBalance] = useState(userBalance)
     const [errors, setErrors] = useState([]);
+    const [buttonBg, setButtonbg] = useState(0);
     const [method, setMethod] = useState('');
     const [shares, setShares] = useState(0);
     const [totalCost, setTotalCost] = useState(0);
     const receiptObj = useSelector(state => state.transactions)
     const receipts = Object.values(receiptObj);
+    const [addList, setAddList] = useState(false)
+    const [listid, setListid] = useState(17);
+    const [removeList, setRemoveList] = useState(false);
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -30,12 +36,19 @@ const StockInfo = () => {
         if (updateBalance) {
             dispatch(getBalance(userid)).then(res => {
                 if (res) {
-                    console.log(res, "RES")
                     setBalance(res)
                 }
 
             })
             setUpdateBalance(false)
+        }
+    })
+
+    useEffect(() => {
+        if (addList) {
+            dispatch(addStockList(stock, listid))
+        } else if (removeList) {
+            dispatch(deleteStockList(stock, listid))
         }
     })
 
@@ -47,23 +60,33 @@ const StockInfo = () => {
 
     const updateShares = (e) => {
         setShares(e.target.value)
-        setTotalCost(e.target.value * stock.price)
+        const input = (e.target.value * stock.price);
+        const total = Math.ceil(input * 100) / 100;
+        setTotalCost(total)
     }
 
     const handleBuy = (e) => {
         e.preventDefault()
         setMethod('buy')
+        if (buttonBg === 1) {
+            setButtonbg(0)
+        } else {
+            setButtonbg(1)
+        }
     }
 
     const handleSell = (e) => {
         e.preventDefault()
         setMethod('sell')
+        if (buttonBg === 2) {
+            setButtonbg(0)
+        } else {
+            setButtonbg(2)
+        }
     }
 
-    const addToList = async (e) => {
-        e.preventDefault()
-        // await dispatch(addStocktoList(userid, stock.id))
-    }
+
+
     return (
         <>
             {receipts && receipts.map(r => (
@@ -74,17 +97,14 @@ const StockInfo = () => {
             ))}
 
             {stock &&
-            <div className="stock-page-container">
+            <div className="stock-page-container" >
                 <div className="stock-info-container">
                     <div className="stock-name-tkr-container">
-                        <span className="stock-name-tkr">{stock.name} ({stock.ticker})</span>
-                        <button onClick={addToList}>Add to List</button>
-                    </div>
-                    <div className="stock-price-container">
-                        <span className="stock-price">${stock.price}</span>
+                        <h1 className="stock-name">{stock.name}</h1>
+                        <h1 className="stock-name">${stock.price}</h1>
                     </div>
                     <div className="stock-graph-container">
-                        <span>Graph coming soon</span>
+                        <PortfolioChart />
                     </div>
                     <div className="stock-about-container">
                         <h2>About</h2>
@@ -93,24 +113,21 @@ const StockInfo = () => {
                 </div>
                 <div className="stock-form-container">
                     <form onSubmit={onSubmit} className="stock-form">
-                        <div>
-                            <div>
-                                {console.log(balance, "###########")}
-                                <span>Your current Balance {balance}</span>
+                        <div className="buy-sell-div">
+                            <div className={buttonBg === 1 ? 'shadow' : 'noshadow'} onClick={handleBuy}>
+                                <span  className="buy-sell-span">Buy {stock.ticker}</span>
                             </div>
-                        </div>
-                        <div className="buy-sell-container">
-                            <div className="buy-container">
-                                <button onClick={handleBuy} className="buy-span">Buy</button>
+                                <span className="buy-sell-span-noclick"> | </span>
+                            <div className={buttonBg === 2 ? 'shadow' : 'noshadow'} onClick={handleSell}>
+                                <span className="buy-sell-span">Sell {stock.ticker}</span>
                             </div>
-                            <div className="sell-container">
-                                <button onClick={handleSell} className="sell-span">Sell</button>
-                            </div>
-                            {console.log(method, shares)}
                         </div>
                         <div className="buy-sell-info-container">
+                            <div className="purchasing-power-div">
+                                <span>Purchasing Power: ${balance}</span>
+                            </div>
                             <div>
-                                <label> Shares
+                                <label> Shares:
                                     <input className="shares"
                                         type='number'
                                         min='0'
@@ -123,14 +140,18 @@ const StockInfo = () => {
                                 <span>Market Price: ${stock.price}</span>
                             </div>
                             <div>
-                                <span>Total Cost: </span>{totalCost && <span>{totalCost}</span>}
+                                <span>Total Cost: $</span>{totalCost && <span>{totalCost}</span>}
                             </div>
                             <div>
                                 <button type="submit" onSubmit={onSubmit}>Confirm Transaction</button>
                             </div>
                         </div>
                     </form>
+                    <div className="list-button" >
+                        <button onClick={() => setAddList(true)}>Add to List (not functional yet)</button>
+                    </div>
                 </div>
+
             </div> }
 
         </>

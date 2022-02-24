@@ -5,6 +5,13 @@
     overflow: hidden;
 }
 
+.root-head {
+    background-color: white;
+}
+
+.root-body {
+    background-color: white;
+}
 .login-image-container {
     width: 736px;
     height: 970px;

@@ -9,6 +9,7 @@ class Stock(db.Model):
     ticker = db.Column(db.String(5), nullable=False, unique=True)
     price = db.Column(db.Float(2), nullable=False)
     description = db.Column(db.String(2200), nullable=False)
+    # lists = db.relationship("List", secondary=liststocks, back_populates='stocks')
 
     def to_dict(self):
         return {

@@ -1,0 +1,106 @@
+.stock-name {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 500;
+    letter-spacing: -.33px;
+}
+
+.stock-graph-container {
+    margin-bottom: 44px;
+    position: relative;
+    width: 676px;
+    height: 349px;
+}
+
+.stock-page-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding-top: 50px;
+}
+
+.stock-info-container {
+    padding-left: 30px;
+}
+
+.buy-sell-div {
+    padding-left: 24px;
+    padding-right: 24px;
+    border-bottom: 1px solid black;
+    border-color: rgb(227,233,237);
+    height: 52px;
+    padding-top: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+
+.buy-sell-span {
+    margin: 0px;
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: -.1px;
+    line-height: 24px;
+    cursor: pointer;
+}
+
+
+.buy-sell-span-noclick {
+    margin: 0px;
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: -.1px;
+    line-height: 24px;
+}
+
+.shadow {
+    background-color: rgb(0, 200, 5);
+    display: flex;
+    justify-content: space-between;
+}
+
+.noshadow {
+    background-color: transparent;
+    display: flex;
+    justify-content: space-between;
+}
+
+.buy-sell-info-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100%;
+}
+
+.buy-sell-info-container > div {
+    padding-top: 40px;
+    padding-left: 10px;
+}
+
+.stock-form-container {
+    width: 300px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.stock-form {
+    width: 100%;
+    height: 100%;
+    border: 1px solid black;
+}
+
+.list-button {
+    padding-top: 20px;
+    display: flex;
+    justify-content: center;
+}

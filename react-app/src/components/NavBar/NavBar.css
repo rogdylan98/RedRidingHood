@@ -1,0 +1,34 @@
+.logged-in-nav {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 105;
+}
+
+.main-container-div {
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+    max-width: 100%;
+    width: 1024px;
+    height: 64px;
+}
+
+.logged-in-logo-navlink {
+    margin-right: 6px;
+    margin-top: -2px;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+.logged-in-logo {
+    height: 48px;
+    min-height: 32px;
+    min-width: 32px;
+    width: 48px;
+}
+
+.searchbar-div {
+    flex-basis: 480px;
+    min-width: 160px;
+}
