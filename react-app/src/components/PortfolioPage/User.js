@@ -65,6 +65,11 @@ function User() {
               </header>
             </button>
           </div>
+          <div>
+            <NavLink exact to='/stocks/AMZN'>
+              Test Transaction Crud Here
+            </NavLink>
+          </div>
         </div>
 
       <div className='list-sidebar-div'>

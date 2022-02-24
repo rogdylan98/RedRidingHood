@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getStock } from "../../store/stocks";
+import { getStock, addStockList, deleteStockList } from "../../store/stocks";
 import { makeTransaction} from "../../store/transactions";
 import { getBalance } from "../../store/user";
 import './StockInfo.css';
@@ -21,6 +21,9 @@ const StockInfo = () => {
     const [totalCost, setTotalCost] = useState(0);
     const receiptObj = useSelector(state => state.transactions)
     const receipts = Object.values(receiptObj);
+    const [addList, setAddList] = useState(false)
+    const [listid, setListid] = useState(17);
+    const [removeList, setRemoveList] = useState(false);
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -38,6 +41,14 @@ const StockInfo = () => {
 
             })
             setUpdateBalance(false)
+        }
+    })
+
+    useEffect(() => {
+        if (addList) {
+            dispatch(addStockList(stock, listid))
+        } else if (removeList) {
+            dispatch(deleteStockList(stock, listid))
         }
     })
 
@@ -75,10 +86,7 @@ const StockInfo = () => {
     }
 
 
-    const addToList = async (e) => {
-        e.preventDefault()
-        // await dispatch(addStocktoList(userid, stock.id))
-    }
+
     return (
         <>
             {receipts && receipts.map(r => (
@@ -140,7 +148,7 @@ const StockInfo = () => {
                         </div>
                     </form>
                     <div className="list-button" >
-                        <button onClick={addToList}>Add to List</button>
+                        <button onClick={() => setAddList(true)}>Add to List (not functional yet)</button>
                     </div>
                 </div>
 
