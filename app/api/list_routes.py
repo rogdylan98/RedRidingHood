@@ -70,14 +70,23 @@ def get_stocks_in_list(listid):
     my_stocks = [stock.to_dict() for stock in my_list.stocks]
     return {'stocks': my_stocks}
 
+
+@list_routes.route('/<ticker>')
+@login_required
+def get_lists_by_ticker(ticker):
+    stock = Stock.query.filter_by(ticker=ticker).first()
+    my_lists = [l.to_dict() for l in stock.lists]
+    return {'lists': my_lists}
+
 @list_routes.route('/<int:listid>/<int:stockid>', methods=['POST'])
 @login_required
 def add_stock_to_list(listid, stockid):
     my_list = List.query.get(listid)
     my_stock = Stock.query.get(stockid)
-    for stock in my_list.stocks:
-        if stock.id == stockid:
-            return {"error": "stock already in list"}
+    if my_stock:
+        for stock in my_list.stocks:
+            if stock.id == stockid:
+                return {"error": "stock already in list"}
     my_list.stocks.append(my_stock)
     db.session.add(my_list)
     db.session.commit()

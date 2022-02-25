@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { getStock, addStockList} from "../../store/stocks";
-import { makeTransaction} from "../../store/transactions";
+import { makeTransaction, getUserTransactions, deleteTransaction} from "../../store/transactions";
 import { getBalance } from "../../store/user";
 import './StockInfo.css';
 import PortfolioChart from "../PortfolioPage/PortfolioChart";
-import { getUserLists } from "../../store/lists";
+import { getUserLists} from "../../store/lists";
+import { getStockLists } from "../../store/stocklists";
 
 const StockInfo = () => {
     const { ticker } = useParams();
@@ -26,17 +27,23 @@ const StockInfo = () => {
     const receipts = Object.values(receiptObj);
     const [addList, setAddList] = useState(false)
     const [listid, setListid] = useState(0);
-    const [removeList, setRemoveList] = useState(false);
     const [listform, setlistform] = useState(false);
     const [selectedList, setSelectedList] = useState('');
-
+    const stockList = useSelector(state => state.stocklists.lists)
+    // const [updateLists, setUpdateLists] = useState(false)
     const dispatch = useDispatch();
+
     useEffect(() => {
         if (!stock) {
-            dispatch(getStock(ticker))
             dispatch(getUserLists(userid))
+            dispatch(getStock(ticker))
+            dispatch(getUserTransactions(userid, ticker))
+            dispatch(getStockLists(ticker))
         }
+        // dispatch(getUserTransactions(userid, stock.id))
+
     })
+
 
     useEffect(() => {
         if (updateBalance) {
@@ -52,7 +59,9 @@ const StockInfo = () => {
 
     useEffect(() => {
         if (addList) {
-            dispatch(addStockList(stock, listid))
+            // dispatch(addStockList(stock, listid))
+            // dispatch(getStockLists(ticker))
+            // setUpdateLists(true)
             setAddList(false)
         }
         // else if (removeList) {
@@ -60,9 +69,20 @@ const StockInfo = () => {
         // }
     })
 
+    // useEffect(() => {
+    //     if (updateLists) {
+    //         dispatch(getStockLists(ticker)).then(res => setStockList(res))
+    //         setUpdateLists(false)
+    //     }
+    // })
+
     const onSubmit = async (e) => {
         e.preventDefault();
-        await dispatch(makeTransaction(userid, stock.id, shares, method, totalCost))
+        setErrors([])
+        const data = await dispatch(makeTransaction(userid, stock.id, shares, method, totalCost))
+        if (data) {
+            setErrors(data)
+        }
         setUpdateBalance(true)
     }
 
@@ -100,18 +120,15 @@ const StockInfo = () => {
 
     const handleAddStock = (e) => {
         e.preventDefault()
-        setAddList(true)
+        dispatch(addStockList(stock, listid))
+        dispatch(getStockLists(ticker))
+
+        // setAddList(true)
+
         setlistform(false)
     }
     return (
         <>
-            {receipts && receipts.map(r => (
-                <div key={r.id}>
-                    <div>Your Shares of {stock.name}: {r.shares}</div>
-                    <div>Current Market Value: {r.share_value}</div>
-                </div>
-            ))}
-
             {stock &&
             <div className="stock-page-container" >
                 <div className="stock-info-container">
@@ -126,6 +143,22 @@ const StockInfo = () => {
                         <h2>About</h2>
                         <p>{stock.description}</p>
                     </div>
+                    <div>
+                        {stockList && stockList.map(list => (
+                            <NavLink key={list.id} exact to={`/lists/${list.id}`}>
+                                <button>{list.name}</button>
+                            </NavLink>
+                        ))}
+                    </div>
+                </div>
+                <div>
+                <div className="receipts">
+                    {receipts && receipts.map(r => (
+                    <div key={r.id}>
+                        <div>Your Shares of {stock.name}: {r.shares}</div>
+                        <div>Current Market Value: {r.share_value}</div>
+                    </div>
+                ))}
                 </div>
                 <div className="stock-form-container">
                     <form onSubmit={onSubmit} className="stock-form">
@@ -139,6 +172,9 @@ const StockInfo = () => {
                             </div>
                         </div>
                         <div className="buy-sell-info-container">
+                            {errors && errors.map((error, ind) => (
+                                <span key={ind} className="purchasing-power-div">{error}</span>
+                            ))}
                             <div className="purchasing-power-div">
                                 <span>Purchasing Power: ${balance}</span>
                             </div>
@@ -181,7 +217,7 @@ const StockInfo = () => {
                         </div>
                     }
                 </div>
-
+                </div>
             </div> }
 
         </>
