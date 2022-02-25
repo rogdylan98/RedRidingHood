@@ -15,9 +15,8 @@ export const getUserTransactions = (userid, ticker) => async(dispatch) => {
     const response = await fetch (`/api/transactions/${userid}/${ticker}`)
     if (response.ok) {
         const data = await response.json();
-        if (data) {
-            dispatch(newTransaction(data));
-        }
+        dispatch(newTransaction(data));
+
     } else {
         return ["errors: something went wrong"]
     }
@@ -70,9 +69,10 @@ const initialState = {};
 
 export default function reducer(state = initialState, action) {
 
-    const newState = {...state}
+    // const newState = {...state}
     switch (action.type) {
         case NEW_TRANSACTION:
+            const newState = {}
             newState[action.transaction.stock_ticker] = action.transaction;
             return newState;
         // case DELETE_TRANSACTION:

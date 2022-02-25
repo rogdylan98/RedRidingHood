@@ -4,4 +4,4 @@ from wtforms.validators import DataRequired, ValidationError
 
 
 class EditListForm(FlaskForm):
-    listname = StringField('listname')
+    listname = StringField('listname', validators=[DataRequired()])

@@ -46,25 +46,25 @@ export const getStocksinList = (listid) => async(dispatch) => {
     }
 }
 
-export const addStockList = (stock, listid) => async(dispatch) => {
-    const response = await fetch (`/api/lists/${listid}/${stock.id}`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            stock
-        })
-    });
+// export const addStockList = (stock, listid) => async(dispatch) => {
+//     const response = await fetch (`/api/lists/${listid}/${stock.id}`, {
+//         method: "POST",
+//         headers: {
+//             "Content-Type": "application/json"
+//         },
+//         body: JSON.stringify({
+//             stock
+//         })
+//     });
 
-    if (response.ok) {
-        const data = await response.json();
-        dispatch(addStocktoList(data));
-        return null
-    } else {
-        return ['An error occured. Please try again']
-    }
-}
+//     if (response.ok) {
+//         const data = await response.json();
+//         dispatch(addStocktoList(data));
+//         return null
+//     } else {
+//         return ['An error occured. Please try again']
+//     }
+// }
 
 // export const deleteStockList = (stock, listid) => async(dispatch) => {
 //     const response = await fetch(`/api/lists/${listid}`, {

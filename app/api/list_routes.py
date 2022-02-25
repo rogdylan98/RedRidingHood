@@ -90,7 +90,7 @@ def add_stock_to_list(listid, stockid):
     my_list.stocks.append(my_stock)
     db.session.add(my_list)
     db.session.commit()
-    return "success", 200
+    return get_lists_by_ticker(my_stock.ticker)
 
 @list_routes.route('/<int:listid>/<int:stockid>', methods=['DELETE'])
 @login_required

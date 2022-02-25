@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useParams } from "react-router-dom";
-import { getStock, addStockList} from "../../store/stocks";
+import { getStock} from "../../store/stocks";
 import { makeTransaction, getUserTransactions, deleteTransaction} from "../../store/transactions";
 import { getBalance } from "../../store/user";
 import './StockInfo.css';
 import PortfolioChart from "../PortfolioPage/PortfolioChart";
 import { getUserLists} from "../../store/lists";
-import { getStockLists } from "../../store/stocklists";
+import { getStockLists, addStockList } from "../../store/stocklists";
 
 const StockInfo = () => {
     const { ticker } = useParams();
@@ -34,7 +34,7 @@ const StockInfo = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (!stock) {
+        if (ticker) {
             dispatch(getUserLists(userid))
             dispatch(getStock(ticker))
             dispatch(getUserTransactions(userid, ticker))
@@ -42,7 +42,7 @@ const StockInfo = () => {
         }
         // dispatch(getUserTransactions(userid, stock.id))
 
-    })
+    }, [ticker])
 
 
     useEffect(() => {
@@ -59,22 +59,10 @@ const StockInfo = () => {
 
     useEffect(() => {
         if (addList) {
-            // dispatch(addStockList(stock, listid))
-            // dispatch(getStockLists(ticker))
-            // setUpdateLists(true)
-            setAddList(false)
+            dispatch(getStockLists(ticker))
         }
-        // else if (removeList) {
-        //     dispatch(deleteStockList(stock, listid))
-        // }
-    })
-
-    // useEffect(() => {
-    //     if (updateLists) {
-    //         dispatch(getStockLists(ticker)).then(res => setStockList(res))
-    //         setUpdateLists(false)
-    //     }
-    // })
+        setAddList(false)
+    }, [addList])
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -121,10 +109,7 @@ const StockInfo = () => {
     const handleAddStock = (e) => {
         e.preventDefault()
         dispatch(addStockList(stock, listid))
-        dispatch(getStockLists(ticker))
-
-        // setAddList(true)
-
+        setAddList(true)
         setlistform(false)
     }
     return (
@@ -144,6 +129,7 @@ const StockInfo = () => {
                         <p>{stock.description}</p>
                     </div>
                     <div>
+                        <h2>Your Lists</h2>
                         {stockList && stockList.map(list => (
                             <NavLink key={list.id} exact to={`/lists/${list.id}`}>
                                 <button>{list.name}</button>
