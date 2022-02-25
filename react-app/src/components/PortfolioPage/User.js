@@ -75,7 +75,7 @@ function User() {
       <div className='portfolio-main-container'>
         <div className='buying-power-outer-div'>
           <div className='chart-div'>
-            <h1>{portfolioValue}</h1>
+            <h1>${portfolioValue}</h1>
             <PortfolioChart />
           </div>
           <div className='buying-power-inner-div'>

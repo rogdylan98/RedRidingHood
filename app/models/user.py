@@ -11,7 +11,7 @@ class User(db.Model, UserMixin):
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
-    balance = db.Column(db.Float(2), default=0)
+    balance = db.Column(db.Float(2), default=10000)
     lists = db.relationship("List", back_populates="user")
 
     @property
