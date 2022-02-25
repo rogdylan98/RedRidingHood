@@ -15,11 +15,14 @@ const SignUpForm = () => {
 
   const onSignUp = async (e) => {
     e.preventDefault();
+    setErrors([])
     if (password === repeatPassword) {
       const data = await dispatch(signUp(username, email, password, name));
       if (data) {
         setErrors(data)
       }
+    } else {
+      setErrors(['Passwords must match'])
     }
   };
   const updateName = (e) => {
@@ -91,7 +94,7 @@ const SignUpForm = () => {
                   <input className='signup-input'
                     type='text'
                     name='username'
-                    placeholder='Username'
+                    placeholder='Username (6-12 characters)'
                     onChange={updateUsername}
                     value={username}
                   ></input>
@@ -151,9 +154,9 @@ const SignUpForm = () => {
                 <span className='right-title-span'>Account Protection</span>
             </div>
             <div>
-              <span className='right-text-span'>No wolfs around here! Red Riding Hood Financial is a member of SIPC. Securities in your account protected up to $500,000. For details, please see </span>
-              <a className='sipc' href='www.sipc.org'>www.sipc.org</a>
-              <span>.</span>
+              <span className='right-text-span'>No wolfs around here! Red Riding Hood Financial is a member of SIPC. Securities in your account protected up to $500,000. For details, please see www.sipc.org.</span>
+              {/* <a className='sipc' href='www.sipc.org'>www.sipc.org</a> */}
+              {/* <span>www.sipc.org.</span> */}
             </div>
             <div className='account-protection-container'>
                 <span className='right-title-span'>Stay on top of your portfolio</span>

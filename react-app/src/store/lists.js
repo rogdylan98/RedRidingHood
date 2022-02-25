@@ -43,8 +43,13 @@ export const editList = (listid, name) => async(dispatch) => {
     if (response.ok) {
         const list = await response.json();
         dispatch(addList(list))
+    } else if (response.status < 500) {
+      const data = await response.json();
+      if (data.errors) {
+        return data.errors;
+      }
     } else {
-        return
+      return ["The list name can not be blank"]
     }
 }
 

@@ -4,12 +4,14 @@ import session from './session';
 import transactions from './transactions';
 import stocks from './stocks';
 import lists from './lists';
+import stocklists from './stocklists';
 
 const rootReducer = combineReducers({
   session,
   stocks,
   transactions,
-  lists
+  lists,
+  stocklists
 });
 
 

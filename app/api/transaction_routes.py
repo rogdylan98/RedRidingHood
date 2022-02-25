@@ -18,17 +18,24 @@ def new_transaction():
     if form.validate_on_submit():
         user = User.query.get(form.data['userid'])
         current_shares = user.get_current_shares(form.data['stockid'])
+        stockid = form.data['stockid']
+        stock = Stock.query.get(stockid)
+
         if method == 'buy' and user.balance < form.data['share_value']:
-            return {'errors': ['Bad data:', '* Not enough funds to purchase']}, 400
+            return {'errors': ['Error: Your purchasing power is not enough']}, 400
         if method == 'sell' and form.data['shares'] > current_shares:
-            return {'errors': ['Bad data:', '* Not enough shares to sell']}, 400
+            return {'errors': ['Error: You do not own enough shares for this transaction']}, 400
         user.update_balance(method, form.data['share_value'])
         prev_transaction = Transaction.query.filter_by(userid=user.id, stockid=form.data['stockid']).first()
 
         if current_shares == form.data['shares'] and method == 'sell':
             db.session.delete(prev_transaction)
             db.session.commit()
-            return "success", 200
+            return {
+                "stock_ticker": stock.ticker,
+                "shares": 0,
+                "share_value": 0
+            }
 
         if current_shares:
             if method == 'buy':
@@ -50,3 +57,16 @@ def new_transaction():
         db.session.commit()
         return transaction.to_dict()
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+
+@transaction_routes.route('/<int:userid>/<ticker>')
+@login_required
+def getUserTransactions(userid, ticker):
+    stock = Stock.query.filter_by(ticker=ticker).first()
+    transaction = Transaction.query.filter_by(userid=userid, stockid=stock.id).first()
+    if transaction:
+        return transaction.to_dict()
+    return {
+        "stock_ticker": ticker,
+        "shares": 0,
+        "share_value": 0
+    }
