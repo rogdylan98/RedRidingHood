@@ -19,6 +19,7 @@ const StockInfo = () => {
     const [updateBalance, setUpdateBalance] = useState(false)
     const [balance, setBalance] = useState(userBalance)
     const [errors, setErrors] = useState([]);
+    const [listerrors, setListErrors] = useState(false)
     const [buttonBg, setButtonbg] = useState(0);
     const [method, setMethod] = useState('');
     const [shares, setShares] = useState(0);
@@ -112,6 +113,15 @@ const StockInfo = () => {
         setAddList(true)
         setlistform(false)
     }
+
+    const handleAddList = () => {
+        if (listarr.length) {
+            setlistform(true)
+        } else {
+            setListErrors(true)
+            setErrors(["Error! You don't have any lists!"])
+        }
+    }
     return (
         <>
             {stock &&
@@ -158,7 +168,7 @@ const StockInfo = () => {
                             </div>
                         </div>
                         <div className="buy-sell-info-container">
-                            {errors && errors.map((error, ind) => (
+                            {errors && !listerrors && errors.map((error, ind) => (
                                 <span key={ind} className="purchasing-power-div">{error}</span>
                             ))}
                             <div className="purchasing-power-div">
@@ -186,7 +196,19 @@ const StockInfo = () => {
                         </div>
                     </form>
                     <div className="list-button" >
-                        <button onClick={() => setlistform(true)}>Add to List</button>
+                        <button onClick={handleAddList}>Add to List</button>
+                    </div>
+                    <div>
+                        {errors && listerrors && errors.map((error, ind) => (
+                            <div key={ind}>
+                                <span className="purchasing-power-div">{error}</span>
+                                <button onClick={() => {
+                                    setListErrors(false)
+                                    setErrors([])
+                                }}>Close</button>
+                            </div>
+                            ))}
+
                     </div>
                     {listform &&
                         <div>
