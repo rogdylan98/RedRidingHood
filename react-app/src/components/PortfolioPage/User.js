@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './User.css'
 import { getUserLists, makeList, editList, deleteList } from '../../store/lists';
-import { getUserStocks, getUserPortfolioValue } from '../../store/user'
+import { getUserReceipts, getUserPortfolioValue } from '../../store/user'
 import { NavLink } from 'react-router-dom';
 import PortfolioChart from './PortfolioChart';
 function User() {
@@ -16,15 +16,15 @@ function User() {
   const [showForm, setShowForm] = useState(false);
   const [edit, setEdit] = useState(false);
   const [errors, setErrors] = useState([])
-  const [userStocks, setUserStocks] = useState([]);
+  const [userReceipts, setUserReceipts] = useState([]);
   const [portfolioValue, setPortfolioValue] = useState(0);
 
   useEffect(() => {
     if (user) {
       dispatch(getUserLists(user.id));
-      dispatch(getUserStocks(user.id)).then(res => {
+      dispatch(getUserReceipts(user.id)).then(res => {
         if (res) {
-          setUserStocks(res)
+          setUserReceipts(res)
         }
       });
       dispatch(getUserPortfolioValue(user.id)).then(res => {
@@ -75,7 +75,7 @@ function User() {
       <div className='portfolio-main-container'>
         <div className='buying-power-outer-div'>
           <div className='chart-div'>
-            <h1>${portfolioValue}</h1>
+            <h1 className='portfolio-share-value'>${portfolioValue.toFixed(2)}</h1>
             <PortfolioChart />
           </div>
           <div className='buying-power-inner-div'>
@@ -88,14 +88,23 @@ function User() {
               </header>
             </button>
           </div>
-          <div>
-            <h2>Your Stocks</h2>
-            {userStocks.map(stock => (
-              <NavLink key={stock.id} exact to={`/stocks/${stock.ticker}`}>
-                <button>
-                  {stock.name}
-                </button>
-              </NavLink>
+          <h2 className='receipts-heading'>Your Stock Transaction Receipts</h2>
+          <div className='transaction-block'>
+            {userReceipts.map(receipt => (
+              <div className='receipt-container' key={receipt.name}>
+                <div>
+                  <NavLink exact to={`/stocks/${receipt.ticker}`}>
+                    <button className='receipt-stock-name'>
+                      {receipt.name}
+                    </button>
+                  </NavLink>
+                </div>
+                <div className='receipt-info'>
+                  <span className='receipt-shares'>Total Shares Owned: {receipt.shares}</span>
+                  <span className='receipt-share-value'>Share Value: {receipt.share_value}</span>
+                </div>
+              </div>
+
             ))}
           </div>
         </div>
@@ -126,16 +135,16 @@ function User() {
                     <footer className='create-list-footer'>
                       <div className='footer-outer-div'>
                         <div className='cancel-button-div'>
-                          <button className='cancel-button' onClick={() => setShowForm(false)}>
+                          <button className='cancel-button' type='submit'>
                             <span className='outer-cancel-span'>
-                              <span className='cancel-span'>Cancel</span>
+                              <span className='cancel-span'>Create</span>
                             </span>
                           </button>
                         </div>
                         <div className='cancel-button-div'>
-                          <button className='cancel-button' type='submit'>
+                          <button className='cancel-button' onClick={() => setShowForm(false)}>
                             <span className='outer-cancel-span'>
-                              <span className='cancel-span'>Create List</span>
+                              <span className='cancel-span'>Cancel</span>
                             </span>
                           </button>
                         </div>

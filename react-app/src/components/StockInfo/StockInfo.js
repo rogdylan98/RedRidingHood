@@ -27,9 +27,9 @@ const StockInfo = () => {
     const receiptObj = useSelector(state => state.transactions)
     const receipts = Object.values(receiptObj);
     const [addList, setAddList] = useState(false)
+    const [selectedList, setSelectedList] = useState(0);
     const [listid, setListid] = useState(0);
     const [listform, setlistform] = useState(false);
-    const [selectedList, setSelectedList] = useState('');
     const stockList = useSelector(state => state.stocklists.lists)
     // const [updateLists, setUpdateLists] = useState(false)
     const dispatch = useDispatch();
@@ -102,17 +102,27 @@ const StockInfo = () => {
         }
     }
 
-    const handleSelect = (e) => {
-        setSelectedList(e.target.value)
-        setListid(e.target.value)
-    }
+    // const handleSelect = (e) => {
+    //     setSelectedList(e.target.value)
+    //     setListid(e.target.value)
+    //     console.log(listid)
+    // }
 
     const handleAddStock = (e) => {
         e.preventDefault()
+        // setListid(e.target.value)
+        if (!listid) {
+            setListErrors(true)
+            setErrors(['Must select a valid list'])
+        }
         dispatch(addStockList(stock, listid))
         setAddList(true)
         setlistform(false)
     }
+
+    // useEffect(() => {
+
+    // })
 
     const handleAddList = () => {
         if (listarr.length) {
@@ -213,7 +223,11 @@ const StockInfo = () => {
                     {listform &&
                         <div>
                             <form onSubmit={handleAddStock}>
-                                <select name='lists' value={selectedList} onChange={handleSelect}>
+                                <select name='lists' value={selectedList} onChange={(e) => {
+                                    setSelectedList(e.target.value)
+                                    setListid(e.target.value)
+                                }}>
+                                    <option value={0}>Select A List</option>
                                     {listform && listarr &&
                                         listarr.map(list => (
                                             <option key={list.id} value={list.id}>{list.name}</option>

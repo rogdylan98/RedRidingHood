@@ -4,16 +4,16 @@ import { Chart, LineController, LineElement, PointElement, LinearScale, Title,Ca
 Chart.register(LineController, LineElement, PointElement, LinearScale, Title, CategoryScale);
 
 const state = {
-    labels: ['1D', '1W', '1M', '3M', '1Y', 'ALL'],
+    labels: ['1D', '2D', '3D', '4D', '5D', '6D'],
     datasets: [
         {
             label: 'Total Share Value',
             fill: false,
             lineTension: 0.5,
-            backgroundColor: 'rgba(75,192,192,1)',
-            borderColor: 'rgba(0,0,0,1)',
+            backgroundColor: 'rgb(0, 0, 0, 1)',
+            borderColor: 'rgba(195,245,60)',
             borderWidth: 2,
-            data: [0, 0, 0, 0]
+            data: [0, 31345.67, 43893.62, 57543.93, 38162.80]
         }
     ]
 }

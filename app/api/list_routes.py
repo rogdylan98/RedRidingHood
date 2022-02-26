@@ -32,8 +32,9 @@ def new_list():
 @login_required
 def get_user_lists(userid):
     user_lists = List.query.filter_by(userid=userid).all()
-    return {l.id: l.to_dict() for l in user_lists}
-
+    if user_lists:
+        return {l.id: l.to_dict() for l in user_lists}
+    return {}
 
 @list_routes.route('/<int:listid>')
 @login_required
@@ -67,8 +68,9 @@ def edit_list(listid):
 @login_required
 def get_stocks_in_list(listid):
     my_list = List.query.get(listid)
-    my_stocks = [stock.to_dict() for stock in my_list.stocks]
-    return {'stocks': my_stocks}
+    if my_list:
+        my_stocks = [stock.to_dict() for stock in my_list.stocks]
+        return {'stocks': my_stocks}
 
 
 @list_routes.route('/<ticker>')

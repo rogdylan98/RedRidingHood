@@ -1,0 +1,134 @@
+.search-bar-container {
+    height: 36px;
+    width: 268px;
+    border-radius: 8px;
+    padding: 0 16px;
+    /* background-color: ; */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.search-bar-container svg {
+    margin-right: 9px;
+    width: 25px;
+    height: 30px;
+}
+
+.search-bar-container input {
+    color: black;
+    width: 100%;
+    height: 100%;
+    line-height: 18px;
+    font-size: 16px;
+    font-weight: 700;
+    border: none;
+    background-color: transparent;
+    position: relative;
+    z-index: 11;
+}
+
+.search-bar-container input.grey-text {
+    color: black;
+}
+
+.search-bar-container input::placeholder {
+    color: black;
+}
+
+.search-bar-container input:focus {
+    outline: none;
+}
+
+/* ------------------search result------------------ */
+
+.background-container {
+    overflow: hidden;
+    height: 450px;
+    width: 375px;
+    background-color: whitesmoke;
+    box-shadow: 0 0 5px 1px rgba(0, 0, 0, .0975);
+    position: absolute;
+    top: 51px;
+    border-radius: 6px;
+    padding: 12px 0;
+    z-index: 12;
+}
+
+.search-result-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: scroll;
+    z-index: 3;
+}
+/*
+#search-result-arrow {
+    content: '';
+    position: absolute;
+    top: 51px;
+    height: 0;
+    width: 0;
+    border: 8px solid black;
+    border-color: var(--background-bright) var(--background-bright) transparent transparent;
+    transform-origin: 0 0;
+    transform: rotate(-45deg);
+    box-shadow: -3px 3px 0px 3px whitesmoke, 0 0 5px 1px rgba(0, 0, 0, .0975);
+    z-index: 4;
+} */
+
+.search-result-container .no-result-found {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    color: black;
+}
+
+.search-result-container .search-result-stock-container {
+    height: 60px;
+    width: 100%;
+    padding: 8px 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-decoration: none;
+    color: black
+}
+
+.search-result-container .search-result-stock-container:hover {
+    background-color: rgb(195,245,60);
+}
+/*
+.search-result-container .search-result-stock-container .avatar {
+    height: 44px;
+    width: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+} */
+
+/* .search-result-container .search-result-user-container .avatar svg {
+    margin: auto;
+} */
+
+.search-result-container .search-result-stock-container .ticker{
+    font-size: 16px;
+    font-weight: 600;
+    margin-left: 10px;
+}
+
+.search-result-container .search-result-stock-container .stockinfo span {
+    font-size: 14px;
+    font-weight: 400;
+    margin-left: 10px;
+    color: black;
+}
