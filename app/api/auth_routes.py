@@ -61,13 +61,16 @@ def sign_up():
     """
     form = SignUpForm()
     form['csrf_token'].data = request.cookies['csrf_token']
+    error_list = []
     if form.validate_on_submit():
         if len(form.data['password']) < 8:
-            return {'errors': ['Password is too short. ']}, 400
+            error_list.append('password: password length is too short')
         if form.data['username'].find(' ') != -1:
-            return {'errors': ['Your username can not have spaces.']}, 400
+            error_list.append('username: username must not have spaces')
         if len(form.data['username']) < 6 or len(form.data['username']) > 12:
-            return {'errors': ['Your username must be between 6 and 12 characters']}, 400
+            error_list.append('username: username must be between 6 and 12 characters')
+        if len(error_list):
+            return {'errors': error_list}, 400
         user = User(
             username=form.data['username'],
             name=form.data['name'],

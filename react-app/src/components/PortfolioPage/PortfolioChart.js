@@ -3,22 +3,37 @@ import { Chart, LineController, LineElement, PointElement, LinearScale, Title,Ca
 
 Chart.register(LineController, LineElement, PointElement, LinearScale, Title, CategoryScale);
 
-const state = {
-    labels: ['1D', '2D', '3D', '4D', '5D', '6D'],
-    datasets: [
-        {
-            label: 'Total Share Value',
-            fill: false,
-            lineTension: 0.5,
-            backgroundColor: 'rgb(0, 0, 0, 1)',
-            borderColor: 'rgba(195,245,60)',
-            borderWidth: 2,
-            data: [0, 31345.67, 43893.62, 57543.93, 38162.80]
-        }
-    ]
-}
 
-const PortfolioChart = () => {
+
+const PortfolioChart = ( { endpoint }) => {
+    const data_list = [];
+    for (let i = 0; i < 5; i++) {
+        let random;
+        if (endpoint === 0) {
+            random = Math.random() * (1000);
+        } else {
+            random = Math.random() * ((endpoint + 1000) - (endpoint - 1000) + (endpoint - 1000))
+        }
+        data_list.push(random)
+    }
+    data_list.push(endpoint)
+    console.log(data_list)
+
+    const state = {
+        labels: ['1D', '2D', '3D', '4D', '5D', '6D'],
+        datasets: [
+            {
+                label: 'Total Share Value',
+                fill: false,
+                lineTension: 0.5,
+                backgroundColor: 'rgb(0, 0, 0, 1)',
+                borderColor: 'rgba(195,245,60)',
+                borderWidth: 2,
+                data: data_list
+            }
+        ]
+    }
+
     return (
         <div>
             <Line

@@ -94,9 +94,9 @@ export const signUp = (username, email, password, name) => async (dispatch) => {
       return data.errors;
     }
   }
-  // else {
-  //   return ['An error occurred. Please try again.']
-  // }
+  else {
+    return ['An error occurred. Please try again.']
+  }
 }
 
 
