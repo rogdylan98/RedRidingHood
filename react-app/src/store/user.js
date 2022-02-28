@@ -7,12 +7,12 @@ export const getBalance = (userid) => async() =>  {
     }
 }
 
-export const getUserStocks = (userid) => async() => {
-    const response = await fetch(`/api/users/${userid}/stocks`);
+export const getUserReceipts = (userid) => async() => {
+    const response = await fetch(`/api/users/${userid}/transactions`);
 
     if (response.ok) {
         const data = await response.json();
-        return data.stocks
+        return data.transactions
     }
 }
 

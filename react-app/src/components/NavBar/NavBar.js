@@ -1,7 +1,9 @@
 import { NavLink } from "react-router-dom"
 import LogoutButton from "../auth/LogoutButton"
 import './NavBar.css'
-import SearchBar from "./SearchBar"
+import SearchBar from "./SearchBar";
+import MyLinks from './MyLinks';
+
 const NavBar = () => {
     return (
         <nav className="logged-in-nav">
@@ -14,9 +16,8 @@ const NavBar = () => {
                 <div className="searchbar-div">
                     <SearchBar />
                 </div>
-                <div>
+                <MyLinks />
                     <LogoutButton />
-                </div>
             </div>
         </nav>
     )

@@ -12,10 +12,8 @@
     padding-top: 50px;
 
 }
-/*
-.chart-div {
-    padding-left: 50px;
-} */
+
+
 
 .buying-power-inner-div {
     border-radius: 4px;
@@ -24,7 +22,7 @@
 
 .buying-power-button {
     border: 0px;
-    padding-top: 0px;
+    padding-top: 20px;
     padding-bottom: 0px;
     border-radius: 4px;
     display: block;
@@ -32,6 +30,11 @@
     padding-right: 24px;
     width: 100%;
     cursor: pointer;
+    background-color: transparent;
+}
+
+.transaction-block {
+    padding-top: 20px;
 }
 
 .buying-power-span-div {
@@ -159,11 +162,15 @@
 
 .create-list-form {
     padding: 8px 24px 0px 18px;
+    object-fit: fill;
+
 }
 
 .create-list-div {
     align-items: center;
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     margin-bottom: 8px;
 }
 
@@ -199,6 +206,8 @@
 .create-list-footer {
     display: flex;
     justify-content: flex-end;
+    position: relative;
+    left: 25px;
 }
 
 .footer-outer-div {
@@ -208,7 +217,7 @@
 }
 
 .cancel-button {
-    background-color: #E15554;
+    /* background-color: #E15554;
     padding-top: 0px;
     padding-bottom: 0px;
     text-align: unset;
@@ -224,7 +233,11 @@
     height: 36px;
     min-width: 96px;
     padding-left: 24px;
-    padding-right: 24px;
+    padding-right: 24px; */
+    background-color: transparent;
+    border: none;
+    color: #E15554;
+
 }
 
 .outer-cancel-span {
@@ -236,7 +249,7 @@
 
 .cancel-span {
     margin: 0px;
-    color: white;
+    color: #E15554;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 13px;
     font-style: normal;
@@ -244,6 +257,7 @@
     letter-spacing: -.1px;
     line-height: 20px;
     text-decoration: unset;
+    cursor: pointer;
 }
 
 .list-outer-div {
@@ -260,6 +274,8 @@
     height: 100%;
     position: relative;
     width: 100%;
+    border-bottom: solid 1px rgba(195,245,60);
+
 }
 
 .list-name-button {
@@ -270,7 +286,8 @@
     padding: 0px;
     color: inherit;
     height: 100%;
-    width: 100%;
+    width: 120px;
+    text-overflow: ellipsis;
 }
 
 .inner-list-name-container {
@@ -278,6 +295,7 @@
     display: flex;
     height: 100%;
     justify-content: space-between;
+    border-bottom: 1px solid rgba(195,245,60);
 }
 
 .left-list-name-div {
@@ -317,4 +335,72 @@
     display: flex;
     justify-content: center;
     padding-right: 10px;
+    padding-left: 140px;
+
+}
+
+.edit-delete-div > button {
+    background-color: transparent;
+    border: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #E15554;
+    cursor: pointer;
+}
+
+.receipts-heading {
+    font-family: Arial, Helvetica, sans-serif;
+    padding-top: 30px;
+    font-weight: 500;
+}
+
+.transaction-block {
+    display: flex;
+    overflow: hidden;
+}
+
+.receipt-container {
+    display: flex;
+    flex-direction: column;
+    padding-right: 50px;
+}
+
+.receipt-info {
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+    justify-content: space-between;
+}
+
+.receipt-stock-name {
+    background-color: transparent;
+    border: none;
+    color: #E15554;
+    font-weight: 700;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.receipt-info-span {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    padding-top: 20px;
+}
+
+.error-span-main {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 700;
+    color: #E15554;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 10px;
+}
+
+.error-div-main {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 10px;
 }

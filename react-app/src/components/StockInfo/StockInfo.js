@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useParams } from "react-router-dom";
 import { getStock} from "../../store/stocks";
-import { makeTransaction, getUserTransactions, deleteTransaction} from "../../store/transactions";
+import { makeTransaction, getUserTransactions} from "../../store/transactions";
 import { getBalance } from "../../store/user";
 import './StockInfo.css';
 import PortfolioChart from "../PortfolioPage/PortfolioChart";
 import { getUserLists} from "../../store/lists";
 import { getStockLists, addStockList } from "../../store/stocklists";
+import { getUserReceipts} from '../../store/user'
 
 const StockInfo = () => {
     const { ticker } = useParams();
@@ -20,17 +21,19 @@ const StockInfo = () => {
     const [balance, setBalance] = useState(userBalance)
     const [errors, setErrors] = useState([]);
     const [listerrors, setListErrors] = useState(false)
-    const [buttonBg, setButtonbg] = useState(0);
-    const [method, setMethod] = useState('');
+    const [buttonBg, setButtonbg] = useState(1);
+    const [method, setMethod] = useState('buy');
     const [shares, setShares] = useState(0);
     const [totalCost, setTotalCost] = useState(0);
     const receiptObj = useSelector(state => state.transactions)
     const receipts = Object.values(receiptObj);
     const [addList, setAddList] = useState(false)
+    const [selectedList, setSelectedList] = useState(0);
     const [listid, setListid] = useState(0);
     const [listform, setlistform] = useState(false);
-    const [selectedList, setSelectedList] = useState('');
-    const stockList = useSelector(state => state.stocklists.lists)
+    const stockList = useSelector(state => state.stocklists.lists);
+    const [userReceipts, setUserReceipts] = useState([]);
+
     // const [updateLists, setUpdateLists] = useState(false)
     const dispatch = useDispatch();
 
@@ -40,6 +43,11 @@ const StockInfo = () => {
             dispatch(getStock(ticker))
             dispatch(getUserTransactions(userid, ticker))
             dispatch(getStockLists(ticker))
+            dispatch(getUserReceipts(userid)).then(res => {
+                if (res) {
+                  setUserReceipts(res)
+                }
+              });
         }
         // dispatch(getUserTransactions(userid, stock.id))
 
@@ -72,6 +80,11 @@ const StockInfo = () => {
         if (data) {
             setErrors(data)
         }
+        await dispatch(getUserReceipts(userid)).then(res => {
+            if (res) {
+              setUserReceipts(res)
+            }
+          });
         setUpdateBalance(true)
     }
 
@@ -102,17 +115,36 @@ const StockInfo = () => {
         }
     }
 
-    const handleSelect = (e) => {
-        setSelectedList(e.target.value)
-        setListid(e.target.value)
-    }
+    // const handleSelect = (e) => {
+    //     setSelectedList(e.target.value)
+    //     setListid(e.target.value)
+    //     console.log(listid)
+    // }
 
-    const handleAddStock = (e) => {
+    const handleAddStock = async (e) => {
         e.preventDefault()
-        dispatch(addStockList(stock, listid))
+        // setListid(e.target.value)
+        if (!listid) {
+            setListErrors(true)
+            setErrors(['Must select a valid list'])
+        }
+        const data = await dispatch(addStockList(stock.id, listid))
+        if (data) {
+            setErrors(data)
+            setListErrors(true)
+            if (errors) {
+              return
+            }
+          }
         setAddList(true)
         setlistform(false)
+        setListErrors(false)
+        setErrors([])
     }
+
+    // useEffect(() => {
+
+    // })
 
     const handleAddList = () => {
         if (listarr.length) {
@@ -135,27 +167,29 @@ const StockInfo = () => {
                         <PortfolioChart />
                     </div>
                     <div className="stock-about-container">
-                        <h2>About</h2>
-                        <p>{stock.description}</p>
+                        <h2 className="stock-h2">About</h2>
+                        <p className="about-p-stock">{stock.description}</p>
                     </div>
                     <div>
-                        <h2>Your Lists</h2>
+                        <h2 className="stock-h2">Lists with {stock.name}:</h2>
+                        {stockList && stockList.length === 0 && <h2 className="no-lists">No lists yet</h2>}
                         {stockList && stockList.map(list => (
-                            <NavLink key={list.id} exact to={`/lists/${list.id}`}>
-                                <button>{list.name}</button>
+                            <NavLink className='list-nav-link' key={list.id} exact to={`/lists/${list.id}`}>
+                                <button className="list-button-stock">{list.name}</button>
                             </NavLink>
                         ))}
                     </div>
+
                 </div>
-                <div>
-                <div className="receipts">
+                <div className="right-side-stock">
+                {/* <div className="receipts">
                     {receipts && receipts.map(r => (
                     <div key={r.id}>
                         <div>Your Shares of {stock.name}: {r.shares}</div>
                         <div>Current Market Value: {r.share_value}</div>
                     </div>
                 ))}
-                </div>
+                </div> */}
                 <div className="stock-form-container">
                     <form onSubmit={onSubmit} className="stock-form">
                         <div className="buy-sell-div">
@@ -168,65 +202,102 @@ const StockInfo = () => {
                             </div>
                         </div>
                         <div className="buy-sell-info-container">
-                            {errors && !listerrors && errors.map((error, ind) => (
-                                <span key={ind} className="purchasing-power-div">{error}</span>
-                            ))}
-                            <div className="purchasing-power-div">
-                                <span>Purchasing Power: ${balance}</span>
+                            <div className="buy-sell-info-container">
+                                {errors && !listerrors && errors.map((error, ind) => (
+                                    <span key={ind} className="error-span-stock">{error}</span>
+                                ))}
+                                <div className="purchasing-power-div">
+                                    <span className="trading-form-span">Purchasing Power: ${balance}</span>
+                                </div>
+                                <div>
+                                    <label className="trading-form-span"> Shares:
+                                        <input className="shares"
+                                            type='number'
+                                            min='0'
+                                            name='shares'
+                                            onChange={updateShares}
+                                            value={shares}></input>
+                                    </label>
+                                </div>
+                                <div>
+                                    <span className="trading-form-span">Market Price: ${stock.price}</span>
+                                </div>
+                                <div>
+                                    <span className="trading-form-span">Total Cost: $</span>{totalCost && <span>{totalCost}</span>}
+                                </div>
                             </div>
-                            <div>
-                                <label> Shares:
-                                    <input className="shares"
-                                        type='number'
-                                        min='0'
-                                        name='shares'
-                                        onChange={updateShares}
-                                        value={shares}></input>
-                                </label>
-                            </div>
-                            <div>
-                                <span>Market Price: ${stock.price}</span>
-                            </div>
-                            <div>
-                                <span>Total Cost: $</span>{totalCost && <span>{totalCost}</span>}
-                            </div>
-                            <div>
-                                <button type="submit" onSubmit={onSubmit}>Confirm Transaction</button>
+                            <div className="submit-div">
+                                <button className='confirm-transaction' type="submit" onSubmit={onSubmit}>Confirm Transaction</button>
                             </div>
                         </div>
                     </form>
-                    <div className="list-button" >
-                        <button onClick={handleAddList}>Add to List</button>
-                    </div>
-                    <div>
-                        {errors && listerrors && errors.map((error, ind) => (
-                            <div key={ind}>
-                                <span className="purchasing-power-div">{error}</span>
-                                <button onClick={() => {
-                                    setListErrors(false)
-                                    setErrors([])
-                                }}>Close</button>
-                            </div>
-                            ))}
-
-                    </div>
-                    {listform &&
+                    <div className="add-to-list">
                         <div>
-                            <form onSubmit={handleAddStock}>
-                                <select name='lists' value={selectedList} onChange={handleSelect}>
-                                    {listform && listarr &&
-                                        listarr.map(list => (
-                                            <option key={list.id} value={list.id}>{list.name}</option>
-                                        ))
-                                    }
-                                </select>
-                                <button type='submit'>Submit</button>
-                            </form>
+                            {errors && listerrors && errors.map((error, ind) => (
+                                <div key={ind}>
+                                    <span className="error-span-stock">{error}</span>
+                                    {/* <button onClick={() => {
+                                        setListErrors(false)
+                                        setErrors([])
+                                    }}>Close</button> */}
+                                </div>
+                                ))}
+
                         </div>
-                    }
+                        <div className="list-button" >
+                            <button className='add-list-stock' onClick={handleAddList}>Add to a List</button>
+                        </div>
+                        {listform &&
+                            <div className="add-to-list-form">
+                                <form className="add-to-list-form" onSubmit={handleAddStock}>
+                                    <select name='lists' value={selectedList} onChange={(e) => {
+                                        setSelectedList(e.target.value)
+                                        setListid(e.target.value)
+                                    }}>
+                                        <option value={0}>Select A List</option>
+                                        {listform && listarr &&
+                                            listarr.map(list => (
+                                                <option key={list.id} value={list.id}>{list.name}</option>
+                                            ))
+                                        }
+                                    </select>
+                                    <div className="submit-stock-div">
+                                        <button className='submit-list' type='submit'>Submit</button>
+                                    </div>
+                                    <div className="submit-stock-div">
+                                        <button className='cancel-list' onClick={() =>
+                                        {
+                                            setlistform(false)
+                                            setListErrors(false)
+                                            setErrors([])
+                                        }
+                                        } type='submit'>Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+                        }
+                    </div>
                 </div>
+                <h2 className='receipts-heading'>Your Portfolio</h2>
+                    <div className='transaction-block'>
+                        {userReceipts.map(receipt => (
+                        <div className='receipt-container' key={receipt.name}>
+                            <div>
+                            <NavLink exact to={`/stocks/${receipt.ticker}`}>
+                                <button className='receipt-stock-name'>
+                                {receipt.name}
+                                </button>
+                            </NavLink>
+                            </div>
+                            <div className='receipt-info'>
+                            <span className='receipt-info-span'>Total Shares Owned: {receipt.shares}</span>
+                            <span className='receipt-info-span'>Share Value: {receipt.share_value}</span>
+                        </div>
+                    </div>
+                    ))}
                 </div>
-            </div> }
+            </div>
+        </div> }
 
         </>
     )

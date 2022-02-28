@@ -1,0 +1,13 @@
+.my_links {
+    display: flex;
+    justify-content: space-between;
+}
+
+.navbar_buttons {
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+    font-size: 16px;
+    font-weight: 700;
+    color: #E15554;
+}

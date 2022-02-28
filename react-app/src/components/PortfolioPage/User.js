@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './User.css'
 import { getUserLists, makeList, editList, deleteList } from '../../store/lists';
-import { getUserStocks, getUserPortfolioValue } from '../../store/user'
+import { getUserReceipts, getUserPortfolioValue } from '../../store/user'
 import { NavLink } from 'react-router-dom';
 import PortfolioChart from './PortfolioChart';
 function User() {
@@ -11,20 +11,18 @@ function User() {
   const userlistsObj = useSelector(state => state.lists);
   const userlists = Object.values(userlistsObj);
   const [listname, setListName] = useState('');
-  const [listId, setListId] = useState(0);
   const dispatch = useDispatch();
   const [showForm, setShowForm] = useState(false);
-  const [edit, setEdit] = useState(false);
   const [errors, setErrors] = useState([])
-  const [userStocks, setUserStocks] = useState([]);
+  const [userReceipts, setUserReceipts] = useState([]);
   const [portfolioValue, setPortfolioValue] = useState(0);
 
   useEffect(() => {
     if (user) {
       dispatch(getUserLists(user.id));
-      dispatch(getUserStocks(user.id)).then(res => {
+      dispatch(getUserReceipts(user.id)).then(res => {
         if (res) {
-          setUserStocks(res)
+          setUserReceipts(res)
         }
       });
       dispatch(getUserPortfolioValue(user.id)).then(res => {
@@ -42,6 +40,9 @@ function User() {
     const data = await dispatch(makeList(user.id, listname));
     if (data) {
       setErrors(data)
+      if (errors) {
+        return
+      }
   }
     await dispatch(getUserLists(user.id));
     setShowForm(false);
@@ -58,24 +59,12 @@ function User() {
 
   }
 
-  const handleEdit = async (e) => {
-    e.preventDefault();
-    setShowForm(false);
-    setEdit(false);
-    const data = await dispatch(editList(listId, listname));
-    if (data) {
-      setErrors(data)
-    }
-    await dispatch(getUserLists(user.id));
-  }
-
-
   return (
     <>
       <div className='portfolio-main-container'>
         <div className='buying-power-outer-div'>
           <div className='chart-div'>
-            <h1>${portfolioValue}</h1>
+            <h1 className='portfolio-share-value'>${portfolioValue.toFixed(2)}</h1>
             <PortfolioChart />
           </div>
           <div className='buying-power-inner-div'>
@@ -88,14 +77,23 @@ function User() {
               </header>
             </button>
           </div>
-          <div>
-            <h2>Your Stocks</h2>
-            {userStocks.map(stock => (
-              <NavLink key={stock.id} exact to={`/stocks/${stock.ticker}`}>
-                <button>
-                  {stock.name}
-                </button>
-              </NavLink>
+          <h2 className='receipts-heading'>Your Portfolio</h2>
+          <div className='transaction-block'>
+            {userReceipts.map(receipt => (
+              <div className='receipt-container' key={receipt.name}>
+                <div>
+                  <NavLink exact to={`/stocks/${receipt.ticker}`}>
+                    <button className='receipt-stock-name'>
+                      {receipt.name}
+                    </button>
+                  </NavLink>
+                </div>
+                <div className='receipt-info'>
+                  <span className='receipt-info-span'>Total Shares Owned: {receipt.shares}</span>
+                  <span className='receipt-info-span'>Share Value: {receipt.share_value}</span>
+                </div>
+              </div>
+
             ))}
           </div>
         </div>
@@ -116,7 +114,12 @@ function User() {
                 </header>
               </div>
               <div className='list-outer-div' >
-                {showForm && !edit &&
+              {errors && errors.map((error, ind) => (
+                <div className='error-div-main'>
+                 <span key={ind} className="error-span-main">{error}</span>
+                </div>
+                ))}
+                {showForm &&
               <div className='create-list-div'>
                 <form className='create-list-form' onSubmit={createList}>
                   <div className='create-list-div'>
@@ -126,16 +129,19 @@ function User() {
                     <footer className='create-list-footer'>
                       <div className='footer-outer-div'>
                         <div className='cancel-button-div'>
-                          <button className='cancel-button' onClick={() => setShowForm(false)}>
+                          <button className='cancel-button' type='submit'>
                             <span className='outer-cancel-span'>
-                              <span className='cancel-span'>Cancel</span>
+                              <span className='cancel-span'>Create</span>
                             </span>
                           </button>
                         </div>
                         <div className='cancel-button-div'>
-                          <button className='cancel-button' type='submit'>
+                          <button className='cancel-button' onClick={() => {
+                            setErrors([])
+                            setShowForm(false)
+                            }}>
                             <span className='outer-cancel-span'>
-                              <span className='cancel-span'>Create List</span>
+                              <span className='cancel-span'>Cancel</span>
                             </span>
                           </button>
                         </div>
@@ -144,9 +150,7 @@ function User() {
                   </div>
                 </form>
               </div>}
-              {errors && errors.map((error, ind) => (
-                                <span key={ind} className="purchasing-power-div">{error}</span>
-                            ))}
+
               {userlists && userlists.map(list => (
                   <div className='list-name-container' key={list.id}>
                       <div className='inner-list-name-container'>
@@ -162,35 +166,13 @@ function User() {
                             </div>
                         </button>
                         <div className='edit-delete-div'>
-                          <button onClick={() => {
-                              setEdit(true)
-                              setShowForm(true)
-                              setErrors([])
-                              setListName(list.name)
-                              setListId(list.id)
-                            }
-                            }>Edit</button>
                           <button onClick={() => handleDelete(list.id)}>Delete</button>
                         </div>
                       </div>
                   </div>
               ))}
-              {showForm && edit &&
-              <div>
-                <form onSubmit={handleEdit}>
-                  <div>
-                    <label>Edit List Name:</label>
-                      <input type='text' name='listname' onChange={updateName} value={listname}></input>
-                      <button type='submit'>Edit List</button>
-                      <button onClick={() => {
-                        setShowForm(false)
-                        setEdit(false)
-                      }}>Cancel</button>
-                  </div>
-                </form>
               </div>
-              }
-              </div>
+
             </div>
           </div>
         </div>

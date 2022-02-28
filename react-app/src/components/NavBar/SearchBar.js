@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { searchStocks } from '../../store/stocks';
+import './SearchBar.css'
 
 const SearchBar = () => {
 
@@ -10,7 +11,6 @@ const SearchBar = () => {
   const [searchStock, setSearchStock] = useState('');
   const [menuOpen, setMenuOpen] = useState(false)
   const [result, setResult] = useState([]);
-  console.log(result)
 
   useEffect(() => {
     if (searchStock !== ''){
@@ -39,7 +39,7 @@ const SearchBar = () => {
           { menuOpen &&
           <>
             <div className='background-overlay-transparent' onClick={e => setMenuOpen(false)}></div>
-            <div id="search-result-arrow"></div>
+            {/* <div id="search-result-arrow"></div> */}
             <div className='background-container'>
               <div className='search-result-container'>
                 { result.length ?

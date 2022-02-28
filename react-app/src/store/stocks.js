@@ -36,13 +36,20 @@ export const getStock = (ticker) => async(dispatch) => {
     }
 }
 
+export const getAllStocks = () => async() => {
+    const response = await fetch (`/api/stocks`);
+    if (response.ok){
+        const stocks = await response.json();
+        return stocks
+    }
+}
 
 export const getStocksinList = (listid) => async(dispatch) => {
     const response = await fetch(`/api/lists/${listid}/stocks`);
 
     if (response.ok) {
         const data = await response.json();
-        dispatch(getStocks(data, listid))
+        dispatch(getStocks(data, listid));
     }
 }
 

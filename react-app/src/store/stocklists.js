@@ -19,14 +19,14 @@ export const getStockLists = (ticker) => async(dispatch) => {
     }
 }
 
-export const addStockList = (stock, listid) => async(dispatch) => {
-    const response = await fetch (`/api/lists/${listid}/${stock.id}`, {
+export const addStockList = (stockid, listid) => async(dispatch) => {
+    const response = await fetch (`/api/lists/${listid}/${stockid}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            stock
+            stockid
         })
     });
 
@@ -34,9 +34,14 @@ export const addStockList = (stock, listid) => async(dispatch) => {
         const data = await response.json();
         dispatch(getStockList(data));
         return null
-    } else {
-        return ['An error occured. Please try again']
-    }
+    } else if (response.status < 500) {
+        const data = await response.json();
+        if (data.errors) {
+          return data.errors;
+        }
+      } else {
+          return ['Something went wrong, please try again']
+      }
 }
 
 const initialState = {}
