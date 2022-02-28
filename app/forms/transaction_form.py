@@ -9,5 +9,5 @@ class TransactionForm(FlaskForm):
         'userid', validators=[DataRequired()])
     stockid = IntegerField('stockid', validators=[DataRequired()])
     shares = FloatField('shares', validators=[DataRequired()])
-    share_value = FloatField('share_value', validators=[DataRequired()])
+    share_value = FloatField('share_value')
     method = StringField('method', validators=[DataRequired()])
