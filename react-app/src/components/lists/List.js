@@ -22,18 +22,20 @@ function List() {
   const stockarr = stockCon[0];
   const [showForm, setShowForm] = useState(false);
   const [edit, setEdit] = useState(false);
-  const [listname, setListName] = useState('');
+  const [listname, setListName] = useState(currentList?.name);
 
 
   useEffect(() => {
     if (listid) {
-      dispatch(getListbyId(listid))
+      dispatch(getListbyId(listid)).then(res => {
+        setListName(currentList?.name)
+      })
       dispatch(getStocksinList(listid))
       dispatch(getAllStocks()).then(res => {
         setStocks(res)
       })
     }
-  }, [listid])
+  }, [listid, edit])
 
   // useEffect(() => {
   //   if (addStock) {
@@ -95,7 +97,7 @@ function List() {
               <form onSubmit={handleEdit}>
                 <div>
                   <label className='edit-list-label'>New Name:</label>
-                    <input type='text' name='listname' onChange={updateName} value={listname}></input>
+                    <input className='edit-input' type='text' name='listname' onChange={updateName} value={listname}></input>
                     <button className='edit-list-button' type='submit'>Edit List</button>
                     <button className='cancel-list-button' onClick={() => {
                       setShowForm(false)
@@ -151,7 +153,6 @@ function List() {
         }
         <div className='user-lists-div'>
         {liststocks && liststocks.length !== 0 && liststocks.map(stock => (
-          <>
             <div key={stock.id} className='ind-list-container'>
               <NavLink className='stock-navlink' exact to={`/stocks/${stock.ticker}`}>
                 <span className='stock-name-p'>{stock.name} </span>
@@ -159,7 +160,6 @@ function List() {
               </NavLink>
               <button onClick={() => handleDelete(stock.id)} className='remove-button-list'>Remove</button>
             </div>
-          </>
         ))}
         </div>
         {liststocks && !liststocks.length &&

@@ -104,6 +104,11 @@ ion-icon {
     cursor: pointer;
 }
 
+.edit-input {
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 500;
+}
 .edit-list-button {
     border: none;
     background-color: transparent;

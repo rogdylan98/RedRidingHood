@@ -17,7 +17,7 @@ const NavBar = () => {
                     <SearchBar />
                 </div>
                 <MyLinks />
-                    <LogoutButton />
+                <LogoutButton />
             </div>
         </nav>
     )
