@@ -18,6 +18,13 @@
     top: 40px;
 }
 
+.signup-logo-span {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #E15554;
+}
+
 .left-half-text-div {
     display: flex;
     flex-direction: column;

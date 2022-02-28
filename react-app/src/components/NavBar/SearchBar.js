@@ -20,6 +20,7 @@ const SearchBar = () => {
         setResult(Object.values(res))
       });
     } else setMenuOpen(false)
+
   }, [searchStock]);
 
 
@@ -38,14 +39,21 @@ const SearchBar = () => {
           ></input>
           { menuOpen &&
           <>
-            <div className='background-overlay-transparent' onClick={e => setMenuOpen(false)}></div>
+            <div className='background-overlay-transparent' onClick={e =>
+            {
+              setMenuOpen(false)
+            }
+            }></div>
             {/* <div id="search-result-arrow"></div> */}
             <div className='background-container'>
               <div className='search-result-container'>
                 { result.length ?
                   result.map(stock => {
                     return (
-                      <NavLink key={stock.id} className='search-result-stock-container' to={`/stocks/${stock.ticker}`} onClick={e => setMenuOpen(false)}>
+                      <NavLink key={stock.id} className='search-result-stock-container' to={`/stocks/${stock.ticker}`} onClick={e =>
+                      {setSearchStock('')
+                      setMenuOpen(false)}
+                      }>
                         <div className='ticker'>
                           <span>{stock.ticker}</span>
                         </div>
