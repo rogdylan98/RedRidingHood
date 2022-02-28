@@ -5,13 +5,15 @@ import transactions from './transactions';
 import stocks from './stocks';
 import lists from './lists';
 import stocklists from './stocklists';
+import charts from './charts';
 
 const rootReducer = combineReducers({
   session,
   stocks,
   transactions,
   lists,
-  stocklists
+  stocklists,
+  charts
 });
 
 

@@ -172,7 +172,7 @@ const StockInfo = () => {
                     </div>
                     <div>
                         <h2 className="stock-h2">Lists with {stock.name}:</h2>
-                        {stockList && stockList.length === 0 && <h2 className="no-lists">No lists yet</h2>}
+                        {stockList && stockList.length === 0 && <h2 className="no-lists">No lists yet! Create a list at your home page</h2>}
                         {stockList && stockList.map(list => (
                             <NavLink className='list-nav-link' key={list.id} exact to={`/lists/${list.id}`}>
                                 <button className="list-button-stock">{list.name}</button>
