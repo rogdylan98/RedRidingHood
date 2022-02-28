@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useParams } from 'react-router-dom';
-import { getListbyId } from '../../store/lists';
+import { getListbyId, getUserLists, editList } from '../../store/lists';
 import { addStockList } from '../../store/stocklists';
 import { deleteStockinList, getStocksinList, getAllStocks } from '../../store/stocks';
 import './List.css'
 
 function List() {
-
+  const user = useSelector(state => state.session.user);
   const { listid } = useParams()
   const currentList = useSelector(state => state.lists[listid]);
   const liststocks = useSelector(state => state.stocks[listid]?.stocks)
-  const [remove, setRemove] = useState(false);
   const [showStocks, setShowStocks] = useState(false)
   const dispatch = useDispatch();
   const [listerrors, setListErrors] = useState(false)
@@ -21,7 +20,10 @@ function List() {
   const [stocks, setStocks] = useState([]);
   const stockCon = Object.values(stocks)
   const stockarr = stockCon[0];
-  const [addStock, setAddStock] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [listname, setListName] = useState('');
+
 
   useEffect(() => {
     if (listid) {
@@ -55,22 +57,68 @@ function List() {
     }
     await dispatch(addStockList(stockid, listid))
     await dispatch(getStocksinList(listid))
-    // setAddStock(true)
     setShowStocks(false)
+  }
+
+  const handleEdit = async (e) => {
+    e.preventDefault();
+    const data = await dispatch(editList(listid, listname));
+    if (data) {
+      setErrors(data)
+      if (errors) {
+        return
+      }
+    }
+    await dispatch(getUserLists(user.id));
+    setShowForm(false);
+    setEdit(false);
+  }
+
+  const updateName = (e) => {
+    setListName(e.target.value);
   }
 
   return (
     <>
       {currentList &&
       <div className='list-container'>
+        <div className='edit-and-errors-div'>
+        {errors && errors.map((error, ind) => (
+          <span key={ind} className="error-div">{error}</span>
+        ))}
+          {showForm && edit &&
+            <div>
+              <form onSubmit={handleEdit}>
+                <div>
+                  <label className='edit-list-label'>New Name:</label>
+                    <input type='text' name='listname' onChange={updateName} value={listname}></input>
+                    <button className='edit-list-button' type='submit'>Edit List</button>
+                    <button className='cancel-list-button' onClick={() => {
+                      setShowForm(false)
+                      setEdit(false)
+                      setErrors([])
+                    }}>Cancel</button>
+                </div>
+              </form>
+            </div>
+          }
+          </div>
         <div className='list-name-and-add-stock'>
           <div className='list-name-h2-div'>
            <h2 className='list-name-h2'>{currentList.name}</h2>
           </div>
-          <div>
+          <div className='list-buttons'>
            <button className='add-stock-list-button' onClick={() => setShowStocks(true)}>
             <ion-icon name="add-outline"></ion-icon>
            </button>
+           <button className='edit-lists' onClick={() => {
+                setEdit(true)
+                setShowForm(true)
+                setErrors([])
+              }
+            }>
+              Edit
+            </button>
           </div>
         </div>
         {showStocks &&
@@ -81,8 +129,6 @@ function List() {
                 setStockId(e.target.value)
               }}>
                 <option value={0}>Select A Stock</option>
-                {console.log("111111111", stockarr)}
-                {console.log("222222222", stocks)}
                 {showStocks && stockarr &&
                   stockarr.map(stock => (
                     <option key={stock.id} value={stock.id}>{stock.name}</option>
@@ -90,9 +136,11 @@ function List() {
                 }
               </select>
               <button type='submit'>Submit</button>
+              <button onClick={() => setShowStocks(false)}>Cancel</button>
             </form>
           </div>
         }
+        <div className='user-lists-div'>
         {liststocks && liststocks.length !== 0 && liststocks.map(stock => (
           <>
             <div key={stock.id} className='ind-list-container'>
@@ -104,14 +152,15 @@ function List() {
             </div>
           </>
         ))}
+        </div>
         {liststocks && !liststocks.length &&
           <div>
             <h1>You don't have any stocks in this list! Add one to see it</h1>
           </div>
          }
       </div>
-
       }
+
     </>
   );
 }

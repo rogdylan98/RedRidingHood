@@ -11,10 +11,8 @@ function User() {
   const userlistsObj = useSelector(state => state.lists);
   const userlists = Object.values(userlistsObj);
   const [listname, setListName] = useState('');
-  const [listId, setListId] = useState(0);
   const dispatch = useDispatch();
   const [showForm, setShowForm] = useState(false);
-  const [edit, setEdit] = useState(false);
   const [errors, setErrors] = useState([])
   const [userReceipts, setUserReceipts] = useState([]);
   const [portfolioValue, setPortfolioValue] = useState(0);
@@ -42,6 +40,9 @@ function User() {
     const data = await dispatch(makeList(user.id, listname));
     if (data) {
       setErrors(data)
+      if (errors) {
+        return
+      }
   }
     await dispatch(getUserLists(user.id));
     setShowForm(false);
@@ -57,18 +58,6 @@ function User() {
     setErrors([]);
 
   }
-
-  const handleEdit = async (e) => {
-    e.preventDefault();
-    setShowForm(false);
-    setEdit(false);
-    const data = await dispatch(editList(listId, listname));
-    if (data) {
-      setErrors(data)
-    }
-    await dispatch(getUserLists(user.id));
-  }
-
 
   return (
     <>
@@ -125,7 +114,10 @@ function User() {
                 </header>
               </div>
               <div className='list-outer-div' >
-                {showForm && !edit &&
+              {errors && errors.map((error, ind) => (
+                                <span key={ind} className="purchasing-power-div">{error}</span>
+                            ))}
+                {showForm &&
               <div className='create-list-div'>
                 <form className='create-list-form' onSubmit={createList}>
                   <div className='create-list-div'>
@@ -142,7 +134,10 @@ function User() {
                           </button>
                         </div>
                         <div className='cancel-button-div'>
-                          <button className='cancel-button' onClick={() => setShowForm(false)}>
+                          <button className='cancel-button' onClick={() => {
+                            setErrors([])
+                            setShowForm(false)
+                            }}>
                             <span className='outer-cancel-span'>
                               <span className='cancel-span'>Cancel</span>
                             </span>
@@ -153,9 +148,7 @@ function User() {
                   </div>
                 </form>
               </div>}
-              {errors && errors.map((error, ind) => (
-                                <span key={ind} className="purchasing-power-div">{error}</span>
-                            ))}
+
               {userlists && userlists.map(list => (
                   <div className='list-name-container' key={list.id}>
                       <div className='inner-list-name-container'>
@@ -171,35 +164,13 @@ function User() {
                             </div>
                         </button>
                         <div className='edit-delete-div'>
-                          <button onClick={() => {
-                              setEdit(true)
-                              setShowForm(true)
-                              setErrors([])
-                              setListName(list.name)
-                              setListId(list.id)
-                            }
-                            }>Edit</button>
                           <button onClick={() => handleDelete(list.id)}>Delete</button>
                         </div>
                       </div>
                   </div>
               ))}
-              {showForm && edit &&
-              <div>
-                <form onSubmit={handleEdit}>
-                  <div>
-                    <label>Edit List Name:</label>
-                      <input type='text' name='listname' onChange={updateName} value={listname}></input>
-                      <button type='submit'>Edit List</button>
-                      <button onClick={() => {
-                        setShowForm(false)
-                        setEdit(false)
-                      }}>Cancel</button>
-                  </div>
-                </form>
               </div>
-              }
-              </div>
+
             </div>
           </div>
         </div>

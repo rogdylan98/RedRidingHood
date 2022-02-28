@@ -65,10 +65,76 @@ ion-icon {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    width: 30%;
+    width: 100%;
     padding-top: 30px;
+    padding-bottom: 30px;
 }
 
 .list-name-h2-div {
     padding-right: 100px;
+}
+
+.edit-and-errors-div {
+    display: flex;
+    flex-direction: column;
+    padding-top: 30px;
+}
+
+.user-lists-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.list-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.edit-lists {
+    background-color: transparent;
+    border: none;
+    color: green;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+}
+
+.edit-list-button {
+    border: none;
+    background-color: transparent;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: green;
+    cursor: pointer;
+}
+
+.cancel-list-button {
+    border: none;
+    background-color: transparent;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 700;
+    color: #E15554;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.edit-list-label {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    padding-right: 20px;
+}
+
+.error-div {
+    padding-bottom: 30px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #E15554;
 }

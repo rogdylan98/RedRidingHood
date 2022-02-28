@@ -356,6 +356,7 @@
 
 .transaction-block {
     display: flex;
+    overflow: hidden;
 }
 
 .receipt-container {
