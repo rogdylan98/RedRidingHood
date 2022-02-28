@@ -13,6 +13,25 @@ Here is the live link! [Red Riding Hood](https://redridinghood.herokuapp.com)
 - SQLAlchemy
 - Alembic
 
+# Features
+
+1. Portfolio
+
+Users can track their portfolio and add, or sell, stocks to their portfolio.
+
+2. Lists
+
+Users can create lists so they can categorize their favorite stocks. Users can also edit the names of their lists, add and remove stocks from their list, and delete their lists.
+
+3. Search
+
+Users can search for stocks that they want to make a transaction with or add to their list
+
+To-do
+
+3. API Stock data
+4. Track trading information on the application to create suggestions for the user
+
 # Setup Instructions To Run
 
 1. Clone the repository
