@@ -15,7 +15,7 @@ function User() {
   const [showForm, setShowForm] = useState(false);
   const [errors, setErrors] = useState([])
   const [userReceipts, setUserReceipts] = useState([]);
-  const [portfolioValue, setPortfolioValue] = useState(0);
+  const [portfolioValue, setPortfolioValue] = useState(-1);
 
   useEffect(() => {
     if (user) {
@@ -26,7 +26,7 @@ function User() {
         }
       });
       dispatch(getUserPortfolioValue(user.id)).then(res => {
-        if (res) {
+        if (res === 0 || res) {
           setPortfolioValue(res)
         }
       })
@@ -65,7 +65,7 @@ function User() {
         <div className='buying-power-outer-div'>
           <div className='chart-div'>
             <h1 className='portfolio-share-value'>${portfolioValue.toFixed(2)}</h1>
-            { portfolioValue && <PortfolioChart endpoint={portfolioValue}/>}
+            {portfolioValue >= 0 && <PortfolioChart endpoint={portfolioValue}/>}
           </div>
           <div className='buying-power-inner-div'>
             <button className='buying-power-button'>
