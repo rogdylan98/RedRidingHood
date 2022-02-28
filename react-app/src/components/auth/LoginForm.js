@@ -20,9 +20,9 @@ const LoginForm = () => {
 
   const handleDemo = async (e) => {
     e.preventDefault();
-    const email = "demo@aa.io"
-    const password = "password"
-    const data = await dispatch(login(email, password));
+    const demo_email = "demo@aa.io"
+    const demo_password = "password"
+    const data = await dispatch(login(demo_email, demo_password));
     if (data) {
       setErrors(data);
     }
@@ -50,7 +50,7 @@ const LoginForm = () => {
           <header className='form-header'>
             <span className='login-header-span'>Log in to Red Riding Hood</span>
           </header>
-          <div>
+          <div className="error-div">
             {errors.map((error, ind) => (
               <div key={ind}>{error}</div>
             ))}
@@ -98,7 +98,7 @@ const LoginForm = () => {
                   </button>
                 </div>
                 <div>
-                  <button onClick={handleDemo} className='demo-login-button' type='submit'>
+                  <button onClick={handleDemo} className='demo-login-button' >
                       <span className='login-form-span'>Demo Log In</span>
                   </button>
                 </div>

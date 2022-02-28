@@ -22,7 +22,7 @@ const SignUpForm = () => {
         setErrors(data)
       }
     } else {
-      setErrors(['Passwords must match'])
+      setErrors(['password: Passwords must match'])
     }
   };
   const updateName = (e) => {
@@ -70,11 +70,11 @@ const SignUpForm = () => {
             <div className='form-fields-container'>
               <div className='errors-signup'>
                 {errors.map((error, ind) => (
-                  <div key={ind}>{error}</div>
+                  <span key={ind} className="error-div">{error}</span>
                 ))}
               </div>
               <div className='legal-name-warning-container'>
-                  <span className='legal-name-warning'>Please enter your full legal name. Your legal name should match any form of government ID.</span>
+                  <span className='legal-name-warning'>Please enter your name so Red Riding Hood can deliver you goodies.</span>
               </div>
               <div className='signup-form-label-container'>
                 <label className='signup-label'>
@@ -82,7 +82,7 @@ const SignUpForm = () => {
                     <input className='signup-input'
                       type='text'
                       name='username'
-                      placeholder='Full Legal Name'
+                      placeholder='Your Name'
                       onChange={updateName}
                       value={name}
                     ></input>

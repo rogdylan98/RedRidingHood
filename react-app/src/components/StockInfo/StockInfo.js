@@ -164,7 +164,7 @@ const StockInfo = () => {
                         <h1 className="stock-name">${stock.price}</h1>
                     </div>
                     <div className="stock-graph-container">
-                        <PortfolioChart />
+                        <PortfolioChart endpoint={stock.price}/>
                     </div>
                     <div className="stock-about-container">
                         <h2 className="stock-h2">About</h2>

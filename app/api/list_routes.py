@@ -85,7 +85,8 @@ def get_stocks_in_list(listid):
 @login_required
 def get_lists_by_ticker(ticker):
     stock = Stock.query.filter_by(ticker=ticker).first()
-    my_lists = [l.to_dict() for l in stock.lists]
+    user_lists = List.query.filter_by(userid=current_user.id)
+    my_lists = [l.to_dict() for l in stock.lists if l in user_lists]
     return {'lists': my_lists}
 
 @list_routes.route('/<int:listid>/<int:stockid>', methods=['POST'])

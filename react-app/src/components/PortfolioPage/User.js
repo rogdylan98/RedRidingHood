@@ -65,7 +65,7 @@ function User() {
         <div className='buying-power-outer-div'>
           <div className='chart-div'>
             <h1 className='portfolio-share-value'>${portfolioValue.toFixed(2)}</h1>
-            <PortfolioChart />
+            <PortfolioChart endpoint={portfolioValue}/>
           </div>
           <div className='buying-power-inner-div'>
             <button className='buying-power-button'>
