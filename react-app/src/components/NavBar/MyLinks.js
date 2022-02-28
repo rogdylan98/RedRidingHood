@@ -9,7 +9,7 @@ const MyLinks = () => {
 
     const goToGithub = e => {
         e.preventDefault();
-        window.open('https://github.com/rogdylan98');
+        window.open('https://github.com/rogdylan98/RedRidingHood');
     }
 
     return (

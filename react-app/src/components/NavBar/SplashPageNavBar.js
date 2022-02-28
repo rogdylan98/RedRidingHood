@@ -2,7 +2,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import './SplashPageNavbar.css'
-
+import MyLinks from './MyLinks';
 const SplashPageNavBar = () => {
   return (
     <nav className='navbar'>
@@ -17,6 +17,9 @@ const SplashPageNavBar = () => {
           <NavLink className='signup-navlink' to='/signup' exact={true} activeClassName='active'>
             <span className='signup-span'>Sign Up</span>
           </NavLink>
+        </div>
+        <div>
+          <MyLinks />
         </div>
       </div>
     </nav>
