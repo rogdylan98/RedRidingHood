@@ -2,7 +2,7 @@
 RedRidingHood is a clone inspired by Robinhood that allows users to buy and sell stock.
 
 # Live Site
-[Red Riding Hood](https://redridinghood/herokuapp.com)
+Here is the live link! [Red Riding Hood](https://redridinghood/herokuapp.com)
 
 # Technologies Used
 - Node.js
