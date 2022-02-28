@@ -1,0 +1,74 @@
+.list-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.ind-list-container {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    justify-content: space-between;
+    padding-bottom: 40px;
+}
+
+.list-name-h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    color: black;
+}
+
+.stock-name-p {
+    font-family: Arial, Helvetica, sans-serif;
+    color: black;
+    font-weight: 700;
+    font-size: 24px;
+}
+
+.stock-navlink {
+    text-decoration: none;
+}
+
+.remove-button-list {
+    border: none;
+    background-color: transparent;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    color: #E15554;
+    cursor: pointer;
+}
+
+.stock-price-span {
+    font-family: Arial, Helvetica, sans-serif;
+    color: green;
+    font-weight: 700;
+    font-size: 24px;
+}
+
+.add-stock-list-button {
+    background-color: transparent;
+    border: none;
+    color: green;
+    cursor: pointer;
+    height: 40px;
+    width: 40px;
+}
+
+ion-icon {
+    width: 100%;
+    height: 100%;
+}
+
+.list-name-and-add-stock {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 30%;
+    padding-top: 30px;
+}
+
+.list-name-h2-div {
+    padding-right: 100px;
+}

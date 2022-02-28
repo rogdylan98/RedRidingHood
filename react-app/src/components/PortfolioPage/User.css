@@ -351,6 +351,7 @@
 
 .receipts-heading {
     font-family: Arial, Helvetica, sans-serif;
+    padding-top: 30px;
 }
 
 .transaction-block {
@@ -366,7 +367,8 @@
 .receipt-info {
     display: flex;
     flex-direction: column;
-    padding-top: 30px;
+    padding-top: 10px;
+    justify-content: space-between;
 }
 
 .receipt-stock-name {
@@ -377,4 +379,11 @@
     font-family: Arial, Helvetica, sans-serif;
     font-size: 16px;
     cursor: pointer;
+}
+
+.receipt-info-span {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    padding-top: 20px;
 }

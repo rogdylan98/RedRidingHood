@@ -115,7 +115,7 @@ const StockInfo = () => {
             setListErrors(true)
             setErrors(['Must select a valid list'])
         }
-        dispatch(addStockList(stock, listid))
+        dispatch(addStockList(stock.id, listid))
         setAddList(true)
         setlistform(false)
     }
@@ -228,6 +228,7 @@ const StockInfo = () => {
                                     setListid(e.target.value)
                                 }}>
                                     <option value={0}>Select A List</option>
+                                    {console.log(listarr)}
                                     {listform && listarr &&
                                         listarr.map(list => (
                                             <option key={list.id} value={list.id}>{list.name}</option>

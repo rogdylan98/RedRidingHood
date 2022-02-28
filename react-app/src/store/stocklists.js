@@ -19,14 +19,14 @@ export const getStockLists = (ticker) => async(dispatch) => {
     }
 }
 
-export const addStockList = (stock, listid) => async(dispatch) => {
-    const response = await fetch (`/api/lists/${listid}/${stock.id}`, {
+export const addStockList = (stockid, listid) => async(dispatch) => {
+    const response = await fetch (`/api/lists/${listid}/${stockid}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            stock
+            stockid
         })
     });
 

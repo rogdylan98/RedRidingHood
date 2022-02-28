@@ -100,8 +100,8 @@ function User() {
                   </NavLink>
                 </div>
                 <div className='receipt-info'>
-                  <span className='receipt-shares'>Total Shares Owned: {receipt.shares}</span>
-                  <span className='receipt-share-value'>Share Value: {receipt.share_value}</span>
+                  <span className='receipt-info-span'>Total Shares Owned: {receipt.shares}</span>
+                  <span className='receipt-info-span'>Share Value: {receipt.share_value}</span>
                 </div>
               </div>
 
