@@ -138,3 +138,9 @@ ion-icon {
     font-weight: 700;
     color: #E15554;
 }
+
+option {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+}

@@ -51,13 +51,16 @@ function List() {
   const handleAddStock = async (e) => {
     e.preventDefault()
 
-    if(!listid) {
-      setListErrors(true)
-      setErrors(['Must select a valid stock'])
+    const data = await dispatch(addStockList(stockid, listid));
+    if (data) {
+      setErrors(data)
+      if (errors) {
+        return
+      }
     }
-    await dispatch(addStockList(stockid, listid))
     await dispatch(getStocksinList(listid))
     setShowStocks(false)
+    setErrors([])
   }
 
   const handleEdit = async (e) => {
@@ -72,6 +75,7 @@ function List() {
     await dispatch(getUserLists(user.id));
     setShowForm(false);
     setEdit(false);
+    setErrors([])
   }
 
   const updateName = (e) => {
@@ -131,12 +135,17 @@ function List() {
                 <option value={0}>Select A Stock</option>
                 {showStocks && stockarr &&
                   stockarr.map(stock => (
-                    <option key={stock.id} value={stock.id}>{stock.name}</option>
+                    <option key={stock.id} value={stock.id}>
+                    {stock.name}
+                    </option>
                   ))
                 }
               </select>
-              <button type='submit'>Submit</button>
-              <button onClick={() => setShowStocks(false)}>Cancel</button>
+              <button className='edit-list-button' type='submit'>Submit</button>
+              <button className='cancel-list-button' onClick={() =>
+              {setShowStocks(false)
+              setErrors([])}
+              }>Cancel</button>
             </form>
           </div>
         }

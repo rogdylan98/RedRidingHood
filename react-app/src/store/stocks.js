@@ -49,7 +49,6 @@ export const getStocksinList = (listid) => async(dispatch) => {
 
     if (response.ok) {
         const data = await response.json();
-        console.log("@@@@@@@@@@@", data, "@@@@@@@@@")
         dispatch(getStocks(data, listid));
     }
 }

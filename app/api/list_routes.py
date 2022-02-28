@@ -15,9 +15,11 @@ def new_list():
 
     if form.validate_on_submit():
         user = User.query.get(form.data['userid'])
-        listname = List.query.filter_by(name=form.data['listname']).all()
+        listname = List.query.filter_by(name=form.data['listname'], userid=user.id).all()
         if len(listname):
-            return {'errors': ['Bad data:', '* Each list name must be unique']}, 400
+            return {'errors': ['Each list name must be unique']}, 400
+        if len(form.data['listname']) > 50:
+            return {'errors': ['List name must not be more than 50 characters']}
         new_list = List(
             userid=form.data['userid'],
             name=form.data['listname'],
@@ -58,6 +60,12 @@ def edit_list(listid):
     new_list = List.query.get(listid)
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
+        user = current_user
+        listname = List.query.filter_by(name=form.data['listname'], userid=user.id).all()
+        if len(listname):
+            return {'errors': ['Each list name must be unique']}, 400
+        if len(form.data['listname']) > 50:
+            return {'errors': ['List name must not be more than 50 characters']}, 400
         new_list.name = form.data['listname']
         db.session.commit()
         return new_list.to_dict()
@@ -88,7 +96,7 @@ def add_stock_to_list(listid, stockid):
     if my_stock:
         for stock in my_list.stocks:
             if stock.id == stockid:
-                return {"error": "stock already in list"}
+                return {"errors": ["This stock is already in your list"]}, 400
     my_list.stocks.append(my_stock)
     db.session.add(my_list)
     db.session.commit()
