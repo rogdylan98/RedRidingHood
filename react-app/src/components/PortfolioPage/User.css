@@ -352,6 +352,7 @@
 .receipts-heading {
     font-family: Arial, Helvetica, sans-serif;
     padding-top: 30px;
+    font-weight: 500;
 }
 
 .transaction-block {
@@ -387,4 +388,19 @@
     font-size: 16px;
     font-weight: 400;
     padding-top: 20px;
+}
+
+.error-span-main {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 700;
+    color: #E15554;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 10px;
+}
+
+.error-div-main {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 10px;
 }

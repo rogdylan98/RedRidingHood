@@ -164,7 +164,7 @@ function List() {
         </div>
         {liststocks && !liststocks.length &&
           <div>
-            <h1>You don't have any stocks in this list! Add one to see it</h1>
+            <h1>You don't have any stocks in this list!</h1>
           </div>
          }
       </div>

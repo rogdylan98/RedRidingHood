@@ -77,7 +77,7 @@ function User() {
               </header>
             </button>
           </div>
-          <h2 className='receipts-heading'>Your Stock Transaction Receipts</h2>
+          <h2 className='receipts-heading'>Your Portfolio</h2>
           <div className='transaction-block'>
             {userReceipts.map(receipt => (
               <div className='receipt-container' key={receipt.name}>
@@ -115,8 +115,10 @@ function User() {
               </div>
               <div className='list-outer-div' >
               {errors && errors.map((error, ind) => (
-                                <span key={ind} className="purchasing-power-div">{error}</span>
-                            ))}
+                <div className='error-div-main'>
+                 <span key={ind} className="error-span-main">{error}</span>
+                </div>
+                ))}
                 {showForm &&
               <div className='create-list-div'>
                 <form className='create-list-form' onSubmit={createList}>

@@ -14,12 +14,12 @@ def new_list():
     form['csrf_token'].data = request.cookies['csrf_token']
 
     if form.validate_on_submit():
-        user = User.query.get(form.data['userid'])
+        user = current_user
         listname = List.query.filter_by(name=form.data['listname'], userid=user.id).all()
         if len(listname):
-            return {'errors': ['Each list name must be unique']}, 400
+            return {'errors': ['Each list name must be unique.']}, 400
         if len(form.data['listname']) > 50:
-            return {'errors': ['List name must not be more than 50 characters']}
+            return {'errors': ['List name must not be more than 50 characters.']}, 400
         new_list = List(
             userid=form.data['userid'],
             name=form.data['listname'],
