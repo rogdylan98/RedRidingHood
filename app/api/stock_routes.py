@@ -17,7 +17,7 @@ def get_stock_by_substring(substring):
     return all_stocks
 
 @stock_routes.route('')
-# @login_required
+@login_required
 def get_all_stocks():
     stocks = Stock.query.all()
     return {'stocks': [stock.to_dict() for stock in stocks]}

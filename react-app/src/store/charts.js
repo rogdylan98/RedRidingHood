@@ -1,16 +1,10 @@
 
 const ADD_ENDPOINT = 'charts/ADD_ENDPOINT'
-// const UPDATE_ENDPOINT = 'charts/UPDATE_ENDPOINT'
 
 const addEndpoint = (endpoint) => ({
     type: ADD_ENDPOINT,
     payload: endpoint
 })
-
-// const updateEndpoint = (endpoint) => ({
-//     type: UPDATE_ENDPOINT,
-//     payload: endpoint
-// })
 
 const initialState = {}
 

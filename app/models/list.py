@@ -15,15 +15,10 @@ class List(db.Model):
     user = db.relationship('User', back_populates='lists')
     stocks = db.relationship('Stock', secondary='list_stocks', lazy='subquery', backref=db.backref('lists', lazy=True))
 
-    # def get_stocks(self, array):
-    #     stock_dic = {Stock.query.get(entry.stockid).name: Stock.query.get(entry.stockid).to_dict() for entry in array}
-    #     return stock_dic
-
     def to_dict(self):
         return {
             'id': self.id,
             'userid': self.userid,
             'name': self.name,
-            # 'stocks': stocksList,
             'updated_at': self.updated_at,
         }

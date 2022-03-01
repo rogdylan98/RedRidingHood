@@ -28,7 +28,6 @@ function App() {
 
   return (
     <BrowserRouter>
-      {/* <NavBar /> */}
       <Switch>
         <Route path='/us/en' exact={true}>
           <SplashPageNavBar />

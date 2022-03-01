@@ -23,11 +23,6 @@ const removeList = (id) => ({
   payload: id
 })
 
-// const editList = (id) => ({
-//     type: EDIT_LIST,
-//     payload: id
-// })
-
 const initialState = {};
 
 export const editList = (listid, name) => async(dispatch) => {

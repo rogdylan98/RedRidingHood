@@ -106,8 +106,6 @@ def add_stock_to_list(listid, stockid):
 @list_routes.route('/<int:listid>/<int:stockid>', methods=['DELETE'])
 @login_required
 def delete_stock_from_list(listid, stockid):
-    # if not len(list_stocks.query.filter_by(listid=listid, stockid=stockid).all()):
-    #     return {'errors': 'This stock was not in the list'}
     my_list = List.query.get(listid)
     my_stock = Stock.query.get(stockid)
     my_list.stocks.remove(my_stock)
