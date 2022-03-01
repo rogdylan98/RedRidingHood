@@ -15,7 +15,6 @@ const SearchBar = () => {
   useEffect(() => {
     if (searchStock !== ''){
       setMenuOpen(true)
-      // fetch data
       dispatch(searchStocks(searchStock)).then(res => {
         setResult(Object.values(res))
       });
@@ -44,7 +43,6 @@ const SearchBar = () => {
               setMenuOpen(false)
             }
             }></div>
-            {/* <div id="search-result-arrow"></div> */}
             <div className='background-container'>
               <div className='search-result-container'>
                 { result.length ?
