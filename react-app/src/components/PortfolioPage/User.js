@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './User.css'
-import { getUserLists, makeList, editList, deleteList } from '../../store/lists';
+import { getUserLists, makeList, deleteList } from '../../store/lists';
 import { getUserReceipts, getUserPortfolioValue } from '../../store/user'
 import { NavLink } from 'react-router-dom';
 import PortfolioChart from './PortfolioChart';

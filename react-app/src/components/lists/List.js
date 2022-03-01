@@ -37,14 +37,6 @@ function List() {
     }
   }, [listid, edit])
 
-  // useEffect(() => {
-  //   if (addStock) {
-  //     console.log("ARE WE HEREEEEE?")
-  //     dispatch(getStocksinList(listid))
-  //   }
-  //   setAddStock(false)
-  // }, [addStock])
-
   const handleDelete = async (stockid) => {
       await dispatch(deleteStockinList(stockid, listid))
       await dispatch(getStocksinList(listid))

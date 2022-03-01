@@ -114,16 +114,8 @@ const StockInfo = () => {
             setButtonbg(2)
         }
     }
-
-    // const handleSelect = (e) => {
-    //     setSelectedList(e.target.value)
-    //     setListid(e.target.value)
-    //     console.log(listid)
-    // }
-
     const handleAddStock = async (e) => {
         e.preventDefault()
-        // setListid(e.target.value)
         if (!listid) {
             setListErrors(true)
             setErrors(['Must select a valid list'])
@@ -142,9 +134,6 @@ const StockInfo = () => {
         setErrors([])
     }
 
-    // useEffect(() => {
-
-    // })
 
     const handleAddList = () => {
         if (listarr.length) {
@@ -182,14 +171,6 @@ const StockInfo = () => {
 
                 </div>
                 <div className="right-side-stock">
-                {/* <div className="receipts">
-                    {receipts && receipts.map(r => (
-                    <div key={r.id}>
-                        <div>Your Shares of {stock.name}: {r.shares}</div>
-                        <div>Current Market Value: {r.share_value}</div>
-                    </div>
-                ))}
-                </div> */}
                 <div className="stock-form-container">
                     <form onSubmit={onSubmit} className="stock-form">
                         <div className="buy-sell-div">
@@ -236,10 +217,6 @@ const StockInfo = () => {
                             {errors && listerrors && errors.map((error, ind) => (
                                 <div key={ind}>
                                     <span className="error-span-stock">{error}</span>
-                                    {/* <button onClick={() => {
-                                        setListErrors(false)
-                                        setErrors([])
-                                    }}>Close</button> */}
                                 </div>
                                 ))}
 

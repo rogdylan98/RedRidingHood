@@ -98,8 +98,6 @@
 .list-grid-inner-div {
     width: auto;
     height: 600px;
-    /* max-width: 276px;
-    max-height: 1044px; */
     overflow: hidden;
     position: relative;
     display: flex;
@@ -151,11 +149,6 @@
 }
 
 .create-list-div {
-    /* height: 92px;
-    left: 0px;
-    position: absolute;
-    top: 52px;
-    width: 100%; */
     display: flex;
     flex-direction: column;
 }
@@ -217,23 +210,6 @@
 }
 
 .cancel-button {
-    /* background-color: #E15554;
-    padding-top: 0px;
-    padding-bottom: 0px;
-    text-align: unset;
-    align-items: center;
-    box-sizing: border-box;
-    display: inline-flex;
-    justify-content: center;
-    cursor: pointer;
-    border-radius: 44px;
-    color: white;
-    max-width: 420px;
-    white-space: nowrap;
-    height: 36px;
-    min-width: 96px;
-    padding-left: 24px;
-    padding-right: 24px; */
     background-color: transparent;
     border: none;
     color: #E15554;
