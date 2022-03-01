@@ -6,7 +6,6 @@ import { getUserReceipts, getUserPortfolioValue } from '../../store/user'
 import { NavLink } from 'react-router-dom';
 import PortfolioChart from './PortfolioChart';
 function User() {
-
   const user = useSelector(state => state.session.user);
   const userlistsObj = useSelector(state => state.lists);
   const userlists = Object.values(userlistsObj);

@@ -1,15 +1,10 @@
 const GET_LISTS = 'stocklists/GET_STOCKS';
-// const ADD_STOCK_LIST = 'stocklists'/ADD_STOCK_LIST
 
 const getStockList = (data) => ({
     type: GET_LISTS,
     data
 })
 
-// const addStocktoList = (data) => ({
-//     type: ADD_STOCK_LIST,
-//     data
-// })
 
 export const getStockLists = (ticker) => async(dispatch) => {
     const response = await fetch (`/api/lists/${ticker}`);

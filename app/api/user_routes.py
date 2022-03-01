@@ -20,15 +20,14 @@ def user(id):
 
 
 @user_routes.route('/<int:id>/transactions')
-# @login_required
+@login_required
 def get_stocks(id):
     transactions = Transaction.query.filter_by(userid=id).all()
-    # stock_names = [Stock.query.get(t.stockid) for t in transactions]
     our_transactions = [{'name': Stock.query.get(t.stockid).name, 'shares': t.shares, 'share_value': t.share_value, 'ticker': Stock.query.get(t.stockid).ticker} for t in transactions]
     return {'transactions': our_transactions}
 
 @user_routes.route('/<int:id>/portfolio')
-# @login_required
+@login_required
 def get_port_value(id):
     transactions = Transaction.query.filter_by(userid=id).all()
     stocks = sum(transaction.share_value for transaction in transactions)

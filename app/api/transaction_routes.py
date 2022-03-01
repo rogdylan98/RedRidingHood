@@ -9,7 +9,7 @@ transaction_routes = Blueprint('transactions', __name__)
 
 
 @transaction_routes.route('/new', methods=['POST'])
-# @login_required
+@login_required
 def new_transaction():
     form = TransactionForm()
     form['csrf_token'].data = request.cookies['csrf_token']
