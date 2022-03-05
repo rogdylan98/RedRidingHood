@@ -12,7 +12,7 @@ def get_stock_by_ticker(ticker):
 
 @stock_routes.route('/search/<substring>')
 def get_stock_by_substring(substring):
-    stocks = Stock.query.filter(or_(Stock.name.contains(substring.lower() or substring.upper()), Stock.ticker.contains(substring.lower() or substring.upper()))).all()
+    stocks = Stock.query.filter(or_(Stock.name.upper().contains(substring.upper()), Stock.ticker.upper().contains(substring.upper()))).all()
     all_stocks = { stock.id: stock.to_dict() for stock in stocks}
     return all_stocks
 
