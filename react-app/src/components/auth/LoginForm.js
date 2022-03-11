@@ -48,7 +48,7 @@ const LoginForm = () => {
       <div className='login-form-container'>
           <form className='login-form' onSubmit={onLogin}>
           <header className='form-header'>
-            <span className='login-header-span'>Log in to Red Riding Hood</span>
+            <span className='login-header-span'>Log in to <NavLink className='login-logo-link' to='/'>Red Riding Hood</NavLink></span>
           </header>
           <div className="error-div">
             {errors.map((error, ind) => (
