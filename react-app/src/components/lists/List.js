@@ -13,7 +13,6 @@ function List() {
   const liststocks = useSelector(state => state.stocks[listid]?.stocks)
   const [showStocks, setShowStocks] = useState(false)
   const dispatch = useDispatch();
-  const [listerrors, setListErrors] = useState(false)
   const [errors, setErrors] = useState([]);
   const [selectedStock, setSelectedStock] = useState(0);
   const [stockid, setStockId] = useState(0);
@@ -35,7 +34,7 @@ function List() {
         setStocks(res)
       })
     }
-  }, [listid, edit])
+  }, [listid, edit, currentList?.name, dispatch])
 
   const handleDelete = async (stockid) => {
       await dispatch(deleteStockinList(stockid, listid))

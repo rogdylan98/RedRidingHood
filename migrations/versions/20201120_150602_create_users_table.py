@@ -46,6 +46,8 @@ def upgrade():
     sa.Column('ticker', sa.String(5), nullable=False),
     sa.Column('price', sa.Float(2), nullable=False),
     sa.Column('description', sa.String(length=2200), nullable=False),
+    sa.Column('updated', sa.DateTime(timezone=False)),
+
     sa.UniqueConstraint('name'),
     sa.UniqueConstraint('ticker'),
     sa.PrimaryKeyConstraint('id')

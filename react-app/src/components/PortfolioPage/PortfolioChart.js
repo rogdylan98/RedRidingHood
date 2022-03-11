@@ -37,7 +37,7 @@ const PortfolioChart = ( { endpoint }) => {
         if (endpoint !== current_endpoint) {
             setData(endpoint)
         }
-    }, [current_endpoint])
+    }, [current_endpoint, endpoint, dispatch])
 
     const state = {
         labels: ['1D', '2D', '3D', '4D', '5D', '6D'],

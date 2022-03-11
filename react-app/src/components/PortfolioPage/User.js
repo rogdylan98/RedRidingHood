@@ -30,7 +30,7 @@ function User() {
         }
       })
     }
-  }, [user]);
+  }, [user, dispatch]);
 
 
   const createList = async (e) => {
