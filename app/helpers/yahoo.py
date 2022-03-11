@@ -13,5 +13,8 @@ def get_price(ticker):
     querystring = {"symbols": ticker}
     response = requests.request("GET", f'{YAHOO_API_URL}/{path}', headers=headers, params=querystring)
     stock_data = response.json()['quoteResponse']['result'][0]
-    price = stock_data['ask']
+    if stock_data['ask'] != 0.0:
+        price = stock_data['ask']
+    else:
+        price = stock_data['regularMarketOpen']
     return price
