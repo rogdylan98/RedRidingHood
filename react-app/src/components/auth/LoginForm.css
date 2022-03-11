@@ -17,6 +17,11 @@
     height: 970px;
 }
 
+.login-logo-link {
+    text-decoration: none;
+    color: #E15554;
+}
+
 .login-container {
     display: flex;
     flex-direction: row;
