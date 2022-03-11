@@ -5,7 +5,7 @@ from sqlalchemy import or_, func
 stock_routes = Blueprint('stocks', __name__)
 
 @stock_routes.route('/<ticker>')
-@login_required
+# @login_required
 def get_stock_by_ticker(ticker):
     stock = Stock.query.filter_by(ticker=ticker).first().update_price()
     return stock.to_dict()
