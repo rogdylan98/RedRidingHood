@@ -20,7 +20,7 @@ const SearchBar = () => {
       });
     } else setMenuOpen(false)
 
-  }, [searchStock]);
+  }, [searchStock, dispatch]);
 
 
 

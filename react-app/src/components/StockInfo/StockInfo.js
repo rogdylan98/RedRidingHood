@@ -25,8 +25,6 @@ const StockInfo = () => {
     const [method, setMethod] = useState('buy');
     const [shares, setShares] = useState(0);
     const [totalCost, setTotalCost] = useState(0);
-    const receiptObj = useSelector(state => state.transactions)
-    const receipts = Object.values(receiptObj);
     const [addList, setAddList] = useState(false)
     const [selectedList, setSelectedList] = useState(0);
     const [listid, setListid] = useState(0);
@@ -51,7 +49,7 @@ const StockInfo = () => {
         }
         // dispatch(getUserTransactions(userid, stock.id))
 
-    }, [ticker])
+    }, [ticker, dispatch, userid])
 
 
     useEffect(() => {
@@ -64,14 +62,14 @@ const StockInfo = () => {
             })
             setUpdateBalance(false)
         }
-    })
+    }, [updateBalance, dispatch, userid])
 
     useEffect(() => {
         if (addList) {
             dispatch(getStockLists(ticker))
         }
         setAddList(false)
-    }, [addList])
+    }, [addList, ticker, dispatch])
 
     const onSubmit = async (e) => {
         e.preventDefault();
